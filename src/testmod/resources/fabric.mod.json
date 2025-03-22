@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "zinetest",
+  "version": "${version}",
+  "name": "Zine Test",
+  "description": "",
+  "authors": [
+    "EightSidedSquare"
+  ],
+  "contact": {},
+  "license": "ARR",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.eightsidedsquare.zinetest.TestmodClient"
+    ],
+    "main": [
+      "com.eightsidedsquare.zinetest.core.TestmodInit"
+    ],
+    "fabric-datagen": [
+      "com.eightsidedsquare.zinetest.datagen.TestmodDatagen"
+    ]
+  },
+  "depends": {
+    "zine": "*",
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}

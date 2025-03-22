@@ -1,0 +1,79 @@
+package com.eightsidedsquare.zine.mixin;
+
+import com.eightsidedsquare.zine.common.predicate.ItemPredicateExtensions;
+import com.eightsidedsquare.zine.common.util.ZineUtil;
+import net.minecraft.item.Item;
+import net.minecraft.predicate.ComponentPredicate;
+import net.minecraft.predicate.NumberRange;
+import net.minecraft.predicate.item.ItemPredicate;
+import net.minecraft.predicate.item.ItemSubPredicate;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntryList;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+
+@Mixin(ItemPredicate.class)
+public abstract class ItemPredicateMixin implements ItemPredicateExtensions {
+
+    @Shadow @Final @Mutable
+    private Optional<RegistryEntryList<Item>> items;
+
+    @Shadow @Final @Mutable
+    private NumberRange.IntRange count;
+
+    @Shadow @Final @Mutable
+    private ComponentPredicate components;
+
+    @Shadow @Final @Mutable
+    private Map<ItemSubPredicate.Type<?>, ItemSubPredicate> subPredicates;
+
+    @Override
+    public void zine$setItems(@Nullable RegistryEntryList<Item> items) {
+        this.items = Optional.ofNullable(items);
+    }
+
+    @Override
+    public void zine$addItem(Item item) {
+        if(this.items.isPresent()) {
+            this.items = Optional.of(ZineUtil.mergeValue(this.items.get(), Registries.ITEM::getEntry, item));
+            return;
+        }
+        this.items = Optional.of(RegistryEntryList.of(Registries.ITEM::getEntry, item));
+    }
+
+    @Override
+    public void zine$addItems(Collection<Item> items) {
+        if(this.items.isPresent()) {
+            this.items = Optional.of(ZineUtil.mergeValues(this.items.get(), Registries.ITEM::getEntry, items));
+            return;
+        }
+        this.items = Optional.of(RegistryEntryList.of(Registries.ITEM::getEntry, items));
+    }
+
+    @Override
+    public void zine$setCount(NumberRange.IntRange count) {
+        this.count = count;
+    }
+
+    @Override
+    public void zine$setComponents(ComponentPredicate components) {
+        this.components = components;
+    }
+
+    @Override
+    public void zine$setSubPredicates(Map<ItemSubPredicate.Type<?>, ItemSubPredicate> subPredicates) {
+        this.subPredicates = subPredicates;
+    }
+
+    @Override
+    public void zine$addSubPredicate(ItemSubPredicate.Type<?> type, ItemSubPredicate predicate) {
+        this.subPredicates = ZineUtil.putOrUnfreeze(this.subPredicates, type, predicate);
+    }
+}

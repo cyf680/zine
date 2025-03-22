@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "id": "zine",
+  "version": "${version}",
+  "name": "Zine",
+  "description": "Little Library Mod",
+  "authors": [
+    "EightSidedSquare"
+  ],
+  "contact": {},
+  "license": "ARR",
+  "icon": "assets/zine/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.eightsidedsquare.zine.client.ModClient"
+    ],
+    "main": [
+      "com.eightsidedsquare.zine.core.ModInit"
+    ]
+  },
+  "mixins": [
+    "zine.mixins.json"
+  ],
+  "accessWidener": "zine.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_161": ["com/eightsidedsquare/zine/common/advancement/AdvancementExtensions"],
+      "net/minecraft/class_170": ["com/eightsidedsquare/zine/common/advancement/AdvancementRewardsExtensions"],
+      "net/minecraft/class_185": ["com/eightsidedsquare/zine/common/advancement/AdvancementDisplayExtensions"],
+      "net/minecraft/class_251": ["com/eightsidedsquare/zine/common/util/shape/VoxelSetExtensions"],
+      "net/minecraft/class_265": ["com/eightsidedsquare/zine/common/util/shape/VoxelShapeExtensions"],
+      "net/minecraft/class_1011": ["com/eightsidedsquare/zine/client/atlas/NativeImageExtensions"],
+      "net/minecraft/class_1792": ["com/eightsidedsquare/zine/common/item/ItemExtensions"],
+      "net/minecraft/class_1887$class_9700": ["com/eightsidedsquare/zine/common/enchantment/EnchantmentBuilderExtensions"],
+      "net/minecraft/class_2019": ["com/eightsidedsquare/zine/common/predicate/DamagePredicateExtensions"],
+      "net/minecraft/class_2066$class_2068": ["com/eightsidedsquare/zine/common/criterion/InventoryChangedCriterionConditionsExtensions"],
+      "net/minecraft/class_2073": ["com/eightsidedsquare/zine/common/predicate/ItemPredicateExtensions"],
+      "net/minecraft/class_2102": ["com/eightsidedsquare/zine/common/predicate/EntityEffectPredicateExtensions"],
+      "net/minecraft/class_3776": ["com/eightsidedsquare/zine/common/world/structure/FeaturePoolElementExtensions"],
+      "net/minecraft/class_3781": ["com/eightsidedsquare/zine/common/world/structure/SinglePoolElementExtensions"],
+      "net/minecraft/class_3782": ["com/eightsidedsquare/zine/common/world/structure/ListPoolElementExtensions"],
+      "net/minecraft/class_3785": ["com/eightsidedsquare/zine/common/world/structure/StructurePoolExtensions"],
+      "net/minecraft/class_3821": ["com/eightsidedsquare/zine/common/world/structure/StructureProcessorRuleExtensions"],
+      "net/minecraft/class_3826": ["com/eightsidedsquare/zine/common/world/structure/RuleStructureProcessorExtensions"],
+      "net/minecraft/class_4550": ["com/eightsidedsquare/zine/common/predicate/BlockPredicateExtensions"],
+      "net/minecraft/class_4551": ["com/eightsidedsquare/zine/common/predicate/FluidPredicateExtensions"],
+      "net/minecraft/class_4552": ["com/eightsidedsquare/zine/common/predicate/LightPredicateExtensions"],
+      "net/minecraft/class_4935": ["com/eightsidedsquare/zine/client/block/BlockStateVariantExtensions"],
+      "net/minecraft/class_5258": ["com/eightsidedsquare/zine/common/predicate/LootContextPredicateExtensions"],
+      "net/minecraft/class_5497": ["com/eightsidedsquare/zine/common/world/structure/StructureProcessorListExtensions"],
+      "net/minecraft/class_8066": ["com/eightsidedsquare/zine/client/atlas/PalettedPermutationsAtlasSourceExtensions"],
+      "net/minecraft/class_8782": ["com/eightsidedsquare/zine/common/advancement/AdvancementRequirementsExtensions"],
+      "net/minecraft/class_9329": ["com/eightsidedsquare/zine/common/predicate/ComponentPredicateExtensions"],
+      "net/minecraft/class_10017": ["com/eightsidedsquare/zine/client/state/EntityRenderStateExtensions"],
+      "net/minecraft/class_10430$class_10431": ["com/eightsidedsquare/zine/client/item/UnbakedBasicItemModelExtensions"],
+      "net/minecraft/class_10435$class_10436": ["com/eightsidedsquare/zine/client/item/UnbakedCompositeItemModelExtensions"],
+      "net/minecraft/class_10437$class_10438": ["com/eightsidedsquare/zine/client/item/UnbakedConditionItemModelExtensions"],
+      "net/minecraft/class_10448$class_10450": ["com/eightsidedsquare/zine/client/item/UnbakedRangeDispatchItemModelExtensions"],
+      "net/minecraft/class_10451$class_10453": ["com/eightsidedsquare/zine/client/item/UnbakedSelectItemModelExtensions"],
+      "net/minecraft/class_10455$class_10456": ["com/eightsidedsquare/zine/client/item/UnbakedSpecialItemModelExtensions"]
+    }
+  }
+}
