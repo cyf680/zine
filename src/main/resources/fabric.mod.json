@@ -26,7 +26,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "1.21.5-rc.1"
   },
   "custom": {
     "loom:injected_interfaces": {
@@ -51,12 +51,11 @@
       "net/minecraft/class_4550": ["com/eightsidedsquare/zine/common/predicate/BlockPredicateExtensions"],
       "net/minecraft/class_4551": ["com/eightsidedsquare/zine/common/predicate/FluidPredicateExtensions"],
       "net/minecraft/class_4552": ["com/eightsidedsquare/zine/common/predicate/LightPredicateExtensions"],
-      "net/minecraft/class_4935": ["com/eightsidedsquare/zine/client/block/BlockStateVariantExtensions"],
       "net/minecraft/class_5258": ["com/eightsidedsquare/zine/common/predicate/LootContextPredicateExtensions"],
       "net/minecraft/class_5497": ["com/eightsidedsquare/zine/common/world/structure/StructureProcessorListExtensions"],
       "net/minecraft/class_8066": ["com/eightsidedsquare/zine/client/atlas/PalettedPermutationsAtlasSourceExtensions"],
       "net/minecraft/class_8782": ["com/eightsidedsquare/zine/common/advancement/AdvancementRequirementsExtensions"],
-      "net/minecraft/class_9329": ["com/eightsidedsquare/zine/common/predicate/ComponentPredicateExtensions"],
+      "net/minecraft/class_9329": ["com/eightsidedsquare/zine/common/predicate/ComponentMapPredicateExtensions"],
       "net/minecraft/class_10017": ["com/eightsidedsquare/zine/client/state/EntityRenderStateExtensions"],
       "net/minecraft/class_10430$class_10431": ["com/eightsidedsquare/zine/client/item/UnbakedBasicItemModelExtensions"],
       "net/minecraft/class_10435$class_10436": ["com/eightsidedsquare/zine/client/item/UnbakedCompositeItemModelExtensions"],

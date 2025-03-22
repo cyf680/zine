@@ -4,7 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.client.data.BlockStateSupplier;
+import net.minecraft.client.data.BlockModelDefinitionCreator;
 
 import java.util.function.Consumer;
 
@@ -28,9 +28,9 @@ public final class BlockStateDefinitionEvents {
     public interface AddDefinitions {
         /**
          * @param blockStateCollector a consumer that accepts block state suppliers
-         * @see net.minecraft.client.data.MultipartBlockStateSupplier
-         * @see net.minecraft.client.data.VariantsBlockStateSupplier
+         * @see net.minecraft.client.data.MultipartBlockModelDefinitionCreator
+         * @see net.minecraft.client.data.VariantsBlockModelDefinitionCreator
          */
-        void addBlockStateDefinitions(Consumer<BlockStateSupplier> blockStateCollector);
+        void addBlockStateDefinitions(Consumer<BlockModelDefinitionCreator> blockStateCollector);
     }
 }

@@ -12,7 +12,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.SpriteContents;
 import net.minecraft.client.texture.atlas.AtlasSource;
-import net.minecraft.client.texture.atlas.AtlasSourceType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.metadata.ResourceMetadata;
 import net.minecraft.util.Identifier;
@@ -32,7 +31,6 @@ public class RemapAtlasSource implements AtlasSource {
             CodecUtil.nonEmptyListCodec(TextureSet.CODEC).fieldOf("texture_sets").forGetter(RemapAtlasSource::getTextureSets),
             CodecUtil.nonEmptyListCodec(Mapping.CODEC).fieldOf("mappings").forGetter(RemapAtlasSource::getMappings)
     ).apply(instance, RemapAtlasSource::new));
-    public static final AtlasSourceType TYPE = new AtlasSourceType(CODEC);
 
     private List<TextureSet> textureSets;
     private List<Mapping> mappings;
@@ -40,6 +38,11 @@ public class RemapAtlasSource implements AtlasSource {
     public RemapAtlasSource(List<TextureSet> textureSets, List<Mapping> mappings) {
         this.textureSets = new ArrayList<>(textureSets);
         this.mappings = new ArrayList<>(mappings);
+    }
+
+    @Override
+    public MapCodec<? extends AtlasSource> getCodec() {
+        return CODEC;
     }
 
     public List<TextureSet> getTextureSets() {
@@ -94,11 +97,6 @@ public class RemapAtlasSource implements AtlasSource {
                 });
             }
         }
-    }
-
-    @Override
-    public AtlasSourceType getType() {
-        return TYPE;
     }
 
     public static Mapping mapping(Identifier texture, @Nullable String prefix, @Nullable String suffix) {

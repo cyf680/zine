@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.criterion.*;
 import net.minecraft.block.Block;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.passive.CatVariant;
@@ -15,14 +16,14 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.LocationCheckLootCondition;
 import net.minecraft.loot.condition.LootCondition;
 import net.minecraft.loot.condition.MatchToolLootCondition;
+import net.minecraft.predicate.component.ComponentMapPredicate;
+import net.minecraft.predicate.component.ComponentsPredicate;
 import net.minecraft.predicate.entity.EntityPredicate;
-import net.minecraft.predicate.entity.EntitySubPredicateTypes;
 import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 
@@ -256,8 +257,10 @@ public final class VanillaAdvancementModificationsImpl {
                 if(variant.isPresent()) {
                     String name = variantKey.getValue().toString();
                     advancement.zine$addCriterion(name, TameAnimalCriterion.Conditions.create(
-                            EntityPredicate.Builder.create().typeSpecific(
-                                    EntitySubPredicateTypes.catVariant(variant.get())
+                            EntityPredicate.Builder.create().components(
+                                    ComponentsPredicate.Builder.create()
+                                            .exact(ComponentMapPredicate.of(DataComponentTypes.CAT_VARIANT, variant.get()))
+                                            .build()
                             )
                     ));
                     advancement.requirements().zine$addRequirement(List.of(name));
@@ -340,7 +343,10 @@ public final class VanillaAdvancementModificationsImpl {
                                     EntityPredicate.contextPredicateFromEntityPredicate(
                                             EntityPredicate.Builder.create()
                                                     .type(Registries.ENTITY_TYPE, EntityType.FROG)
-                                                    .typeSpecific(EntitySubPredicateTypes.frogVariant(variant.get()))
+                                                    .components(ComponentsPredicate.Builder.create()
+                                                            .exact(ComponentMapPredicate.of(DataComponentTypes.FROG_VARIANT, variant.get()))
+                                                            .build()
+                                                    )
                                     )
                             )
                     ));
@@ -469,8 +475,10 @@ public final class VanillaAdvancementModificationsImpl {
                 if(variant.isPresent()) {
                     String name = variantKey.getValue().toString();
                     advancement.zine$addCriterion(name, TameAnimalCriterion.Conditions.create(
-                            EntityPredicate.Builder.create().typeSpecific(
-                                    EntitySubPredicateTypes.wolfVariant(RegistryEntryList.of(variant.get()))
+                            EntityPredicate.Builder.create().components(
+                                    ComponentsPredicate.Builder.create()
+                                            .exact(ComponentMapPredicate.of(DataComponentTypes.WOLF_VARIANT, variant.get()))
+                                            .build()
                             )
                     ));
                     advancement.requirements().zine$addRequirement(List.of(name));

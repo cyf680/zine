@@ -4,7 +4,10 @@ import com.eightsidedsquare.zine.common.advancement.VanillaAdvancementModificati
 import com.eightsidedsquare.zine.common.registry.RegistryHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
+import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.block.Blocks;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ProvidesTrimMaterialComponent;
 import net.minecraft.item.Items;
 import net.minecraft.item.equipment.trim.ArmorTrimMaterial;
 import net.minecraft.item.equipment.trim.ArmorTrimPattern;
@@ -51,6 +54,10 @@ public class TestmodInit implements ModInitializer {
                     );
                 }
             });
+        });
+
+        DefaultItemComponentEvents.MODIFY.register(ctx -> {
+            ctx.modify(Items.OBSIDIAN, builder -> builder.add(DataComponentTypes.PROVIDES_TRIM_MATERIAL, new ProvidesTrimMaterialComponent(OBSIDIAN_TRIM_MATERIAL)));
         });
 
         VanillaAdvancementModifications.registerTacticalFishingBucketItem(Items.AXOLOTL_BUCKET);

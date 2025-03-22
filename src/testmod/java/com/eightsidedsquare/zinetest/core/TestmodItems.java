@@ -5,7 +5,7 @@ import net.minecraft.item.SmithingTemplateItem;
 
 public interface TestmodItems {
 
-    Item TOURMALINE = TestmodInit.REGISTRY.item("tourmaline");
+    Item TOURMALINE = TestmodInit.REGISTRY.item("tourmaline", new Item.Settings().trimMaterial(TestmodInit.TOURMALINE_TRIM_MATERIAL));
     Item CHECKERED_ARMOR_TRIM_SMITHING_TEMPLATE = TestmodInit.REGISTRY.item("checkered_armor_trim_smithing_template", new Item.Settings(), SmithingTemplateItem::of);
 
     Item TOURMALINE_BLOCK = TestmodBlocks.TOURMALINE_BLOCK.asItem();

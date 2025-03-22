@@ -11,7 +11,7 @@ import com.eightsidedsquare.zine.client.model.ModelEvents;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistryImpl;
 import com.eightsidedsquare.zine.core.ModInit;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.AtlasSourceTypeRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.AtlasSourceRegistry;
 import net.minecraft.util.Identifier;
 
 public class ModClient implements ClientModInitializer {
@@ -22,9 +22,9 @@ public class ModClient implements ClientModInitializer {
 
         this.registerEvents();
 
-        AtlasSourceTypeRegistry.register(ModInit.id("generator"), GeneratorAtlasSource.TYPE);
-        AtlasSourceTypeRegistry.register(ModInit.id("remap"), RemapAtlasSource.TYPE);
-        AtlasSourceTypeRegistry.register(ModInit.id("connected_textures"), ConnectedTexturesAtlasSource.TYPE);
+        AtlasSourceRegistry.register(ModInit.id("generator"), GeneratorAtlasSource.CODEC);
+        AtlasSourceRegistry.register(ModInit.id("remap"), RemapAtlasSource.CODEC);
+        AtlasSourceRegistry.register(ModInit.id("connected_textures"), ConnectedTexturesAtlasSource.CODEC);
     }
 
     private void callBootstraps() {

@@ -8,8 +8,6 @@ import com.eightsidedsquare.zine.client.atlas.generator.NoiseSpriteGenerator;
 import com.eightsidedsquare.zine.client.atlas.generator.SpriteProperties;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient1D;
 import com.eightsidedsquare.zine.client.block.BlockStateDefinitionEvents;
-import com.eightsidedsquare.zine.client.block.model.ConnectedBlockModel;
-import com.eightsidedsquare.zine.client.block.model.FancyConnectedBlockModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
@@ -20,10 +18,10 @@ import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
@@ -106,26 +104,22 @@ public class TestmodClient implements ClientModInitializer {
             assetCollector.accept(TestmodItems.WOOD, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.WOOD)));
         });
         BlockStateDefinitionEvents.ADD_DEFINITIONS.register(blockStateCollector -> {
-            blockStateCollector.accept(VariantsBlockStateSupplier.create(
+            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
                     TestmodBlocks.TOURMALINE_BLOCK,
-                    BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))
+                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))
             ));
-            blockStateCollector.accept(VariantsBlockStateSupplier.create(
+            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
                     TestmodBlocks.GOO,
-                    BlockStateVariant.create().put(VariantSettings.MODEL, ModelIds.getBlockModelId(TestmodBlocks.GOO))
+                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.GOO))
             ));
-            blockStateCollector.accept(
-                    VariantsBlockStateSupplier.create(TestmodBlocks.SILLY_SHAPE, BlockStateVariant.create().zine$model(Blocks.BIG_DRIPLEAF)).coordinate(
-                            BlockStateVariantMap.create(SillyShapeBlock.FACING)
-                                    .register(Direction.NORTH, BlockStateVariant.create())
-                                    .register(Direction.EAST, BlockStateVariant.create().zine$northDefault(Direction.EAST))
-                                    .register(Direction.SOUTH, BlockStateVariant.create().zine$northDefault(Direction.SOUTH))
-                                    .register(Direction.WEST, BlockStateVariant.create().zine$northDefault(Direction.WEST))
-                    )
-            );
-            blockStateCollector.accept(
-                    VariantsBlockStateSupplier.create(TestmodBlocks.WOOD, BlockStateVariant.create().zine$model(TestmodBlocks.WOOD))
-            );
+            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
+                    TestmodBlocks.SILLY_SHAPE,
+                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(Blocks.BIG_DRIPLEAF))
+            ));
+//            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
+//                    TestmodBlocks.WOOD,
+//                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.WOOD))
+//            ));
         });
         LanguageEvents.MODIFY_TRANSLATIONS.register((translations, languageCode, rightToLeft) -> {
             translations.putIfAbsent(TestmodItems.TOURMALINE.getTranslationKey(), "Tourmaline");
@@ -141,15 +135,15 @@ public class TestmodClient implements ClientModInitializer {
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), TestmodBlocks.SILLY_SHAPE);
 
-        Identifier woodId = TestmodInit.id("block/wood");
-        ConnectedBlockModel connectedBlockModel = new FancyConnectedBlockModel(woodId);
-        ModelLoadingPlugin.register(pluginCtx -> {
-            pluginCtx.modifyModelOnLoad().register((model, ctx) -> {
-                if(ctx.id() != null && ctx.id().equals(woodId)) {
-                    return connectedBlockModel;
-                }
-                return model;
-            });
-        });
+//        Identifier woodId = TestmodInit.id("block/wood");
+//        ConnectedBlockModel connectedBlockModel = new FancyConnectedBlockModel(woodId);
+//        ModelLoadingPlugin.register(pluginCtx -> {
+//            pluginCtx.modifyModelOnLoad().register((model, ctx) -> {
+//                if(ctx.id() != null && ctx.id().equals(woodId)) {
+//                    return connectedBlockModel;
+//                }
+//                return model;
+//            });
+//        });
     }
 }

@@ -18,7 +18,6 @@ import net.minecraft.client.texture.atlas.AtlasSource;
 import net.minecraft.client.texture.atlas.PalettedPermutationsAtlasSource;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.EquippableComponent;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.equipment.EquipmentType;
 import net.minecraft.item.equipment.trim.ArmorTrimMaterial;
@@ -157,7 +156,7 @@ public final class ArmorTrimRegistryImpl {
     @Nullable
     private static EquipmentType getEquipmentType(Item item) {
         EquippableComponent equippableComponent = item.getComponents().get(DataComponentTypes.EQUIPPABLE);
-        if(equippableComponent == null || !(item instanceof ArmorItem)) {
+        if(equippableComponent == null) {
             return null;
         }
         return switch (equippableComponent.slot()) {

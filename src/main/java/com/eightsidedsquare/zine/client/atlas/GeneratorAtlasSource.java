@@ -6,7 +6,6 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.atlas.AtlasSource;
-import net.minecraft.client.texture.atlas.AtlasSourceType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
@@ -17,7 +16,6 @@ public class GeneratorAtlasSource implements AtlasSource {
             Identifier.CODEC.fieldOf("output_id").forGetter(GeneratorAtlasSource::getOutputId),
             SpriteProperties.CODEC.optionalFieldOf("properties", SpriteProperties.DEFAULT).forGetter(GeneratorAtlasSource::getProperties)
     ).apply(instance, GeneratorAtlasSource::new));
-    public static final AtlasSourceType TYPE = new AtlasSourceType(CODEC);
 
     private SpriteGenerator spriteGenerator;
     private Identifier outputId;
@@ -35,6 +33,11 @@ public class GeneratorAtlasSource implements AtlasSource {
 
     public GeneratorAtlasSource(SpriteGenerator spriteGenerator, Identifier outputId) {
         this(spriteGenerator, outputId, SpriteProperties.DEFAULT);
+    }
+
+    @Override
+    public MapCodec<? extends AtlasSource> getCodec() {
+        return CODEC;
     }
 
     public SpriteGenerator getSpriteGenerator() {
@@ -81,11 +84,6 @@ public class GeneratorAtlasSource implements AtlasSource {
             }
             return this.properties.createContents(this.outputId, nativeImage);
         });
-    }
-
-    @Override
-    public AtlasSourceType getType() {
-        return TYPE;
     }
 
     @FunctionalInterface

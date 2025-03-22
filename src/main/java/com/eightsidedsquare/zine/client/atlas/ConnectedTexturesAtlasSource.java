@@ -11,7 +11,6 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.SpriteContents;
 import net.minecraft.client.texture.SpriteDimensions;
 import net.minecraft.client.texture.atlas.AtlasSource;
-import net.minecraft.client.texture.atlas.AtlasSourceType;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.resource.metadata.ResourceMetadata;
 import net.minecraft.util.Identifier;
@@ -30,7 +29,6 @@ public class ConnectedTexturesAtlasSource implements AtlasSource {
             Identifier.CODEC.fieldOf("none").forGetter(ConnectedTexturesAtlasSource::getNoneTexture),
             Identifier.CODEC.fieldOf("vertical").forGetter(ConnectedTexturesAtlasSource::getVerticalTexture)
     ).apply(instance, ConnectedTexturesAtlasSource::new));
-    public static final AtlasSourceType TYPE = new AtlasSourceType(CODEC);
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
@@ -64,6 +62,11 @@ public class ConnectedTexturesAtlasSource implements AtlasSource {
                 baseName.withSuffixedPath("_none"),
                 baseName.withSuffixedPath("_vertical")
         );
+    }
+
+    @Override
+    public MapCodec<? extends AtlasSource> getCodec() {
+        return CODEC;
     }
 
     public Identifier getBaseName() {
@@ -160,10 +163,5 @@ public class ConnectedTexturesAtlasSource implements AtlasSource {
                 return new SpriteContents(texture, dimensions, nativeImage, ResourceMetadata.NONE);
             });
         }
-    }
-
-    @Override
-    public AtlasSourceType getType() {
-        return TYPE;
     }
 }

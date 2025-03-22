@@ -1,9 +1,9 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.predicate.ComponentPredicateExtensions;
+import com.eightsidedsquare.zine.common.predicate.ComponentMapPredicateExtensions;
 import com.eightsidedsquare.zine.common.util.ZineUtil;
 import net.minecraft.component.Component;
-import net.minecraft.predicate.ComponentPredicate;
+import net.minecraft.predicate.component.ComponentMapPredicate;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 
-@Mixin(ComponentPredicate.class)
-public abstract class ComponentPredicateMixin implements ComponentPredicateExtensions {
+@Mixin(ComponentMapPredicate.class)
+public abstract class ComponentMapPredicateMixin implements ComponentMapPredicateExtensions {
 
     @Shadow @Final @Mutable
     private List<Component<?>> components;

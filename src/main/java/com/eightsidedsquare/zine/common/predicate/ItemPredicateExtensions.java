@@ -1,15 +1,12 @@
 package com.eightsidedsquare.zine.common.predicate;
 
 import net.minecraft.item.Item;
-import net.minecraft.predicate.ComponentPredicate;
 import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.item.ItemSubPredicate;
+import net.minecraft.predicate.component.ComponentsPredicate;
 import net.minecraft.registry.entry.RegistryEntryList;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 public interface ItemPredicateExtensions {
 
@@ -29,15 +26,7 @@ public interface ItemPredicateExtensions {
         throw new UnsupportedOperationException("Implemented via mixin.");
     }
 
-    default void zine$setComponents(ComponentPredicate components) {
-        throw new UnsupportedOperationException("Implemented via mixin.");
-    }
-
-    default void zine$setSubPredicates(Map<ItemSubPredicate.Type<?>, ItemSubPredicate> subPredicates) {
-        throw new UnsupportedOperationException("Implemented via mixin.");
-    }
-
-    default void zine$addSubPredicate(ItemSubPredicate.Type<?> type, ItemSubPredicate predicate) {
+    default void zine$setComponents(ComponentsPredicate components) {
         throw new UnsupportedOperationException("Implemented via mixin.");
     }
 

@@ -1,6 +1,5 @@
 {
   "asset_id": "zinetest:checkered",
   "decal": false,
-  "description": "Checkered Armor Trim",
-  "template_item": "zinetest:checkered_armor_trim_smithing_template"
+  "description": "Checkered Armor Trim"
 }

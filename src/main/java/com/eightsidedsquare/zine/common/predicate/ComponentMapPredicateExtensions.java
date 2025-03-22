@@ -5,7 +5,7 @@ import net.minecraft.component.ComponentType;
 
 import java.util.List;
 
-public interface ComponentPredicateExtensions {
+public interface ComponentMapPredicateExtensions {
 
     default void zine$setComponents(List<Component<?>> components) {
         throw new UnsupportedOperationException("Implemented via mixin.");

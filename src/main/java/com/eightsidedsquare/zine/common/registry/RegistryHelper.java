@@ -37,8 +37,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.CatVariant;
-import net.minecraft.entity.passive.FrogVariant;
+import net.minecraft.entity.spawn.SpawnCondition;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -64,8 +63,8 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.particle.SimpleParticleType;
 import net.minecraft.potion.Potion;
+import net.minecraft.predicate.component.ComponentPredicate;
 import net.minecraft.predicate.entity.EntitySubPredicate;
-import net.minecraft.predicate.item.ItemSubPredicate;
 import net.minecraft.recipe.*;
 import net.minecraft.recipe.book.RecipeBookCategory;
 import net.minecraft.recipe.display.RecipeDisplay;
@@ -80,6 +79,7 @@ import net.minecraft.scoreboard.number.NumberFormat;
 import net.minecraft.scoreboard.number.NumberFormatType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatFormatter;
@@ -97,6 +97,8 @@ import net.minecraft.structure.rule.RuleTest;
 import net.minecraft.structure.rule.RuleTestType;
 import net.minecraft.structure.rule.blockentity.RuleBlockEntityModifier;
 import net.minecraft.structure.rule.blockentity.RuleBlockEntityModifierType;
+import net.minecraft.test.TestEnvironmentDefinition;
+import net.minecraft.test.TestInstance;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
@@ -939,7 +941,7 @@ public interface RegistryHelper {
      * @return the registered villager type
      */
     default VillagerType villagerType(String name) {
-        return this.register(Registries.VILLAGER_TYPE, name, new VillagerType(this.id(name).toString()));
+        return this.register(Registries.VILLAGER_TYPE, name, new VillagerType());
     }
 
     /**
@@ -966,7 +968,9 @@ public interface RegistryHelper {
                                                   ImmutableSet<Item> gatherableItems,
                                                   ImmutableSet<Block> secondaryJobSites,
                                                   @Nullable SoundEvent workSound) {
-        return this.villagerProfession(name, new VillagerProfession(name, heldWorkstation, acquirableWorkstation, gatherableItems, secondaryJobSites, workSound));
+        Identifier id = this.id(name);
+        Text text = Text.translatable("entity." + id.getNamespace() + ".villager." + id.getPath());
+        return this.villagerProfession(name, new VillagerProfession(text, heldWorkstation, acquirableWorkstation, gatherableItems, secondaryJobSites, workSound));
     }
 
     /**
@@ -1685,42 +1689,6 @@ public interface RegistryHelper {
     }
 
     /**
-     * @param name the name of the cat variant
-     * @param variant the cat variant to register
-     * @return the registered cat variant
-     */
-    default CatVariant catVariant(String name, CatVariant variant) {
-        return this.register(Registries.CAT_VARIANT, name, variant);
-    }
-
-    /**
-     * @param name the name of the cat variant
-     * @param texture the texture of the cat variant
-     * @return the registered cat variant
-     */
-    default CatVariant catVariant(String name, Identifier texture) {
-        return this.catVariant(name, new CatVariant(texture));
-    }
-
-    /**
-     * @param name the name of the frog variant
-     * @param variant the frog variant to register
-     * @return the registered frog variant
-     */
-    default FrogVariant frogVariant(String name, FrogVariant variant) {
-        return this.register(Registries.FROG_VARIANT, name, variant);
-    }
-
-    /**
-     * @param name the name of the frog variant
-     * @param texture the texture of the frog variant
-     * @return the registered frog variant
-     */
-    default FrogVariant frogVariant(String name, Identifier texture) {
-        return this.frogVariant(name, new FrogVariant(texture));
-    }
-
-    /**
      * @param name the name of the decorated pot pattern
      * @param pattern the decorated pot pattern to register
      * @return the registered decorated pot pattern
@@ -1769,23 +1737,13 @@ public interface RegistryHelper {
     }
 
     /**
-     * @param name the name of the item sub-predicate type
-     * @param type the item sub-predicate type to register
-     * @return the registered item sub-predicate type
-     * @param <T> the type of item sub-predicate
+     * @param name the name of the data component predicate
+     * @param codec the codec of the data component predicate
+     * @return the registered data component predicate type
+     * @param <T> the type of data component predicate
      */
-    default <T extends ItemSubPredicate> ItemSubPredicate.Type<T> itemSubPredicate(String name, ItemSubPredicate.Type<T> type) {
-        return this.register(Registries.ITEM_SUB_PREDICATE_TYPE, name, type);
-    }
-
-    /**
-     * @param name the name of the item sub-predicate type
-     * @param codec the codec of the item sub-predicate
-     * @return the registered item sub-predicate type
-     * @param <T> the type of item sub-predicate
-     */
-    default <T extends ItemSubPredicate> ItemSubPredicate.Type<T> itemSubPredicate(String name, Codec<T> codec) {
-        return this.itemSubPredicate(name, new ItemSubPredicate.Type<>(codec));
+    default <T extends ComponentPredicate> ComponentPredicate.Type<T> dataComponentPredicate(String name, Codec<T> codec) {
+        return this.register(Registries.DATA_COMPONENT_PREDICATE_TYPE, name, new ComponentPredicate.Type<>(codec));
     }
 
     /**
@@ -1876,16 +1834,6 @@ public interface RegistryHelper {
 
     /**
      * @param name the name of the consume effect type
-     * @param type the consume effect type to register
-     * @return the registered consume effect type
-     * @param <T> the type of consume effect
-     */
-    default <T extends ConsumeEffect> ConsumeEffect.Type<T> consumeEffect(String name, ConsumeEffect.Type<T> type) {
-        return this.register(Registries.CONSUME_EFFECT_TYPE, name, type);
-    }
-
-    /**
-     * @param name the name of the consume effect type
      * @param codec the codec of the consume effect for serialization
      * @param packetCodec the packet codec of the consume effect for network serialization
      * @return the registered consume effect type
@@ -1932,6 +1880,47 @@ public interface RegistryHelper {
      */
     default RecipeBookCategory recipeBookCategory(String name) {
         return this.recipeBookCategory(name, new RecipeBookCategory());
+    }
+
+    /**
+     * @param name the name of the ticket type
+     * @param expiryTicks the duration of chunk tickets of this type
+     * @param persist {@code true} if chunk tickets of this type should be serialized
+     * @param use the use of the ticket type
+     * @return the registered ticket type
+     */
+    default ChunkTicketType ticketType(String name, long expiryTicks, boolean persist, ChunkTicketType.Use use) {
+        return this.register(Registries.TICKET_TYPE, name, new ChunkTicketType(expiryTicks, persist, use));
+    }
+
+    /**
+     * @param name the name of the test environment definition
+     * @param codec the codec of the test environment definition
+     * @return the registered test environment definition codec
+     * @param <T> the type of test environment definition
+     */
+    default <T extends TestEnvironmentDefinition> MapCodec<T> testEnvironmentDefinition(String name, MapCodec<T> codec) {
+        return this.register(Registries.TEST_ENVIRONMENT_DEFINITION_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the test instance
+     * @param codec the codec of the test instance
+     * @return the registered test instance codec
+     * @param <T> the type of test instance
+     */
+    default <T extends TestInstance> MapCodec<T> testInstance(String name, MapCodec<T> codec) {
+        return this.register(Registries.TEST_INSTANCE_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the spawn condition
+     * @param codec the codec of the spawn condition
+     * @return the registered spawn condition codec
+     * @param <T> the type of spawn condition
+     */
+    default <T extends SpawnCondition> MapCodec<T> spawnCondition(String name, MapCodec<T> codec) {
+        return this.register(Registries.SPAWN_CONDITION_TYPE, name, codec);
     }
 
     private <T extends Block> T registerBlockItem(String name, T block) {

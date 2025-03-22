@@ -23,9 +23,9 @@ public final class CodecUtil {
             vec2f -> List.of(vec2f.x(), vec2f.y())
     );
     public static final Codec<EulerAngle> EULER_ANGLE = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.FLOAT.optionalFieldOf("pitch", 0f).forGetter(EulerAngle::getPitch),
-            Codec.FLOAT.optionalFieldOf("yaw", 0f).forGetter(EulerAngle::getYaw),
-            Codec.FLOAT.optionalFieldOf("roll", 0f).forGetter(EulerAngle::getRoll)
+            Codec.FLOAT.optionalFieldOf("pitch", 0f).forGetter(EulerAngle::pitch),
+            Codec.FLOAT.optionalFieldOf("yaw", 0f).forGetter(EulerAngle::yaw),
+            Codec.FLOAT.optionalFieldOf("roll", 0f).forGetter(EulerAngle::roll)
     ).apply(instance, EulerAngle::new));
     public static final Codec<Integer> INT_STRING = Codec.STRING.comapFlatMap(
             string -> {

@@ -41,4 +41,4 @@ replay_*.log
 
 # generated cache
 
-/src/main/generated/.cache
+/src/testmod/generated/.cache
