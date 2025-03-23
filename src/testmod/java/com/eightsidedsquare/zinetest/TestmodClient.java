@@ -12,7 +12,6 @@ import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistry;
-import com.eightsidedsquare.zinetest.common.block.SillyShapeBlock;
 import com.eightsidedsquare.zinetest.core.TestmodBlocks;
 import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
@@ -21,10 +20,8 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -116,10 +113,10 @@ public class TestmodClient implements ClientModInitializer {
                     TestmodBlocks.SILLY_SHAPE,
                     BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(Blocks.BIG_DRIPLEAF))
             ));
-//            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
-//                    TestmodBlocks.WOOD,
-//                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.WOOD))
-//            ));
+            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
+                    TestmodBlocks.WOOD,
+                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.WOOD))
+            ));
         });
         LanguageEvents.MODIFY_TRANSLATIONS.register((translations, languageCode, rightToLeft) -> {
             translations.putIfAbsent(TestmodItems.TOURMALINE.getTranslationKey(), "Tourmaline");

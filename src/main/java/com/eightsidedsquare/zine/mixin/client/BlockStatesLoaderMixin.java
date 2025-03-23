@@ -1,11 +1,15 @@
 package com.eightsidedsquare.zine.mixin.client;
 
 import com.eightsidedsquare.zine.client.block.BlockStateDefinitionEvents;
+import com.eightsidedsquare.zine.mixin.SimpleCodecAccessor;
+import com.eightsidedsquare.zine.mixin.EitherCodecAccessor;
+import com.eightsidedsquare.zine.mixin.FlatComapEncoderAccessor;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.BlockStateModel;
 import net.minecraft.client.render.model.BlockStatesLoader;
+import net.minecraft.client.render.model.SimpleBlockStateModel;
 import net.minecraft.registry.Registries;
 import net.minecraft.resource.Resource;
 import net.minecraft.state.StateManager;
@@ -18,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +41,9 @@ public abstract class BlockStatesLoaderMixin {
                                                  Map<Identifier, List<Resource>> resources,
                                                  CallbackInfoReturnable<CompletionStage<?>> cir,
                                                  @Local(ordinal = 0) List<CompletableFuture<BlockStatesLoader.LoadedModels>> list) {
+        // This nightmare prevents an unusual error where the second codec of an either codec is null
+        ((EitherCodecAccessor) ((FlatComapEncoderAccessor) ((SimpleCodecAccessor) BlockStateModel.Unbaked.CODEC).getEncoder()).getThis())
+                .setSecond(SimpleBlockStateModel.Unbaked.CODEC);
         BlockStateDefinitionEvents.ADD_DEFINITIONS.invoker().addBlockStateDefinitions(blockStateSupplier -> {
             list.add(CompletableFuture.supplyAsync(() -> {
                 Map<BlockState, BlockStateModel.UnbakedGrouped> map = new IdentityHashMap<>();
