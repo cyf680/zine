@@ -8,6 +8,7 @@ import com.eightsidedsquare.zine.client.atlas.generator.NoiseSpriteGenerator;
 import com.eightsidedsquare.zine.client.atlas.generator.SpriteProperties;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient1D;
 import com.eightsidedsquare.zine.client.block.BlockStateDefinitionEvents;
+import com.eightsidedsquare.zine.client.block.model.FancyConnectedBlockModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
@@ -17,9 +18,12 @@ import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.model.SimpleBlockStateModel;
+import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
@@ -79,6 +83,12 @@ public class TestmodClient implements ClientModInitializer {
             ));
             sources.add(new ConnectedTexturesAtlasSource(TestmodInit.id("block/wood")));
         });
+//        ModelLoadingPlugin.register(ctx -> ctx.modifyItemModelBeforeBake().register((model, context) -> {
+//            if(Items.DIAMOND.zine$modelEquals(context.itemId())) {
+//                return ItemModels.composite(model, ItemModels.basic(TEST_MODEL));
+//            }
+//            return model;
+//        }));
         ItemModelEvents.BEFORE_BAKE.register((id, unbaked) -> {
             if(Items.DIAMOND.zine$modelEquals(id)) {
                 return ItemModels.composite(unbaked, ItemModels.basic(TEST_MODEL));
@@ -91,6 +101,7 @@ public class TestmodClient implements ClientModInitializer {
             Models.GENERATED.upload(TestmodItems.CHECKERED_ARMOR_TRIM_SMITHING_TEMPLATE, TextureMap.layer0(TestmodItems.CHECKERED_ARMOR_TRIM_SMITHING_TEMPLATE), modelCollector);
             Models.CUBE_ALL.upload(TestmodBlocks.TOURMALINE_BLOCK, TextureMap.all(TestmodBlocks.TOURMALINE_BLOCK), modelCollector);
             Models.CUBE_ALL.upload(TestmodBlocks.GOO, TextureMap.all(TestmodInit.id("goo")), modelCollector);
+            Models.CUBE_ALL.upload(TestmodBlocks.WOOD, TextureMap.all(TextureMap.getSubId(TestmodBlocks.WOOD, "_all")), modelCollector);
         });
         ItemModelEvents.ADD_UNBAKED.register(assetCollector -> {
             assetCollector.accept(TestmodItems.TOURMALINE, ItemModels.basic(ModelIds.getItemModelId(TestmodItems.TOURMALINE)));
@@ -101,10 +112,10 @@ public class TestmodClient implements ClientModInitializer {
             assetCollector.accept(TestmodItems.WOOD, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.WOOD)));
         });
         BlockStateDefinitionEvents.ADD_DEFINITIONS.register(blockStateCollector -> {
-            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
-                    TestmodBlocks.TOURMALINE_BLOCK,
-                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))
-            ));
+//            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
+//                    TestmodBlocks.TOURMALINE_BLOCK,
+//                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))
+//            ));
             blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
                     TestmodBlocks.GOO,
                     BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.GOO))
@@ -117,6 +128,14 @@ public class TestmodClient implements ClientModInitializer {
                     TestmodBlocks.WOOD,
                     BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.WOOD))
             ));
+        });
+        ModelLoadingPlugin.register(pluginCtx -> {
+            pluginCtx.registerBlockStateResolver(TestmodBlocks.TOURMALINE_BLOCK, ctx -> {
+                ctx.setModel(ctx.block().getDefaultState(), new SimpleBlockStateModel.Unbaked(new ModelVariant(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))).cached());
+            });
+            pluginCtx.registerBlockStateResolver(TestmodBlocks.WOOD, ctx -> {
+                ctx.setModel(ctx.block().getDefaultState(), new FancyConnectedBlockModel(TestmodInit.id("block/wood")).cached());
+            });
         });
         LanguageEvents.MODIFY_TRANSLATIONS.register((translations, languageCode, rightToLeft) -> {
             translations.putIfAbsent(TestmodItems.TOURMALINE.getTranslationKey(), "Tourmaline");
@@ -131,16 +150,5 @@ public class TestmodClient implements ClientModInitializer {
         ArmorTrimRegistry.registerPattern(TestmodInit.CHECKERED_TRIM_PATTERN);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), TestmodBlocks.SILLY_SHAPE);
-
-//        Identifier woodId = TestmodInit.id("block/wood");
-//        ConnectedBlockModel connectedBlockModel = new FancyConnectedBlockModel(woodId);
-//        ModelLoadingPlugin.register(pluginCtx -> {
-//            pluginCtx.modifyModelOnLoad().register((model, ctx) -> {
-//                if(ctx.id() != null && ctx.id().equals(woodId)) {
-//                    return connectedBlockModel;
-//                }
-//                return model;
-//            });
-//        });
     }
 }
