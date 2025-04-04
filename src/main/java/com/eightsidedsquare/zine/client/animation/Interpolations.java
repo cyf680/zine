@@ -46,13 +46,16 @@ public class Interpolations {
     public static final InterpolationCreator EASE_IN_OUT_ELASTIC = bounciness -> easing(easeInOut(Interpolations.elastic((double) bounciness)));
 
     private static Transformation.Interpolation easing(Double2DoubleFunction easing) {
-        return (output, delta, keyframes, currentFrame, targetFrame, strength) -> {
-            Vector3f vector3f = keyframes[currentFrame].target();
-            Vector3f vector3f2 = keyframes[targetFrame].target();
+        return (output, delta, keyframes, start, end, scale) -> {
+            Vector3f vector3f = keyframes[start].target();
+            Vector3f vector3f2 = keyframes[end].target();
 
             double eased = delta <= 0 ? 0 : delta >= 1 ? 1 : easing.apply((double) delta);
-            output.set(MathHelper.lerp(eased, vector3f.x(), vector3f2.x()), MathHelper.lerp(eased, vector3f.y(), vector3f2.y()), MathHelper.lerp(eased, vector3f.z(), vector3f2.z()));
-            return output;
+            return output.set(
+                    MathHelper.lerp(eased, vector3f.x(), vector3f2.x()) * scale,
+                    MathHelper.lerp(eased, vector3f.y(), vector3f2.y()) * scale,
+                    MathHelper.lerp(eased, vector3f.z(), vector3f2.z()) * scale
+            );
         };
     }
 
