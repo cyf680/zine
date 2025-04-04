@@ -9,6 +9,7 @@ import com.eightsidedsquare.zine.client.atlas.generator.SpriteProperties;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient1D;
 import com.eightsidedsquare.zine.client.block.BlockStateDefinitionEvents;
 import com.eightsidedsquare.zine.client.block.model.FancyConnectedBlockModel;
+import com.eightsidedsquare.zine.client.block.model.TessellatingBlockModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
@@ -102,6 +103,7 @@ public class TestmodClient implements ClientModInitializer {
             Models.CUBE_ALL.upload(TestmodBlocks.TOURMALINE_BLOCK, TextureMap.all(TestmodBlocks.TOURMALINE_BLOCK), modelCollector);
             Models.CUBE_ALL.upload(TestmodBlocks.GOO, TextureMap.all(TestmodInit.id("goo")), modelCollector);
             Models.CUBE_ALL.upload(TestmodBlocks.WOOD, TextureMap.all(TextureMap.getSubId(TestmodBlocks.WOOD, "_all")), modelCollector);
+            Models.CUBE_ALL.upload(TestmodBlocks.RAINBOW, TextureMap.all(TextureMap.getId(TestmodBlocks.RAINBOW)), modelCollector);
         });
         ItemModelEvents.ADD_UNBAKED.register(assetCollector -> {
             assetCollector.accept(TestmodItems.TOURMALINE, ItemModels.basic(ModelIds.getItemModelId(TestmodItems.TOURMALINE)));
@@ -110,6 +112,7 @@ public class TestmodClient implements ClientModInitializer {
             assetCollector.accept(TestmodItems.GOO, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.GOO)));
             assetCollector.accept(TestmodItems.SILLY_SHAPE, ItemModels.basic(ModelIds.getBlockModelId(Blocks.BIG_DRIPLEAF)));
             assetCollector.accept(TestmodItems.WOOD, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.WOOD)));
+            assetCollector.accept(TestmodItems.RAINBOW, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.RAINBOW)));
         });
         BlockStateDefinitionEvents.ADD_DEFINITIONS.register(blockStateCollector -> {
 //            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
@@ -136,6 +139,12 @@ public class TestmodClient implements ClientModInitializer {
             pluginCtx.registerBlockStateResolver(TestmodBlocks.WOOD, ctx -> {
                 ctx.setModel(ctx.block().getDefaultState(), new FancyConnectedBlockModel(TestmodInit.id("block/wood")).cached());
             });
+            pluginCtx.registerBlockStateResolver(TestmodBlocks.RAINBOW, ctx -> {
+                ctx.setModel(ctx.block().getDefaultState(), new TessellatingBlockModel(
+                        TestmodInit.id("block/rainbow"),
+                        4
+                ).cached());
+            });
         });
         LanguageEvents.MODIFY_TRANSLATIONS.register((translations, languageCode, rightToLeft) -> {
             translations.putIfAbsent(TestmodItems.TOURMALINE.getTranslationKey(), "Tourmaline");
@@ -144,6 +153,7 @@ public class TestmodClient implements ClientModInitializer {
             translations.putIfAbsent(TestmodItems.SILLY_SHAPE.getTranslationKey(), "Silly Shape");
             translations.putIfAbsent(TestmodItems.GOO.getTranslationKey(), "Goo");
             translations.putIfAbsent(TestmodItems.WOOD.getTranslationKey(), "Wood");
+            translations.putIfAbsent(TestmodItems.RAINBOW.getTranslationKey(), "Rainbow");
         });
         ArmorTrimRegistry.registerMaterial(TestmodInit.TOURMALINE_TRIM_MATERIAL);
         ArmorTrimRegistry.registerMaterial(TestmodInit.OBSIDIAN_TRIM_MATERIAL);

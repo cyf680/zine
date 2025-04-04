@@ -12,6 +12,7 @@ public interface TestmodItems {
     Item GOO = TestmodBlocks.GOO.asItem();
     Item SILLY_SHAPE = TestmodBlocks.SILLY_SHAPE.asItem();
     Item WOOD = TestmodBlocks.WOOD.asItem();
+    Item RAINBOW = TestmodBlocks.RAINBOW.asItem();
 
     static void init() {
 

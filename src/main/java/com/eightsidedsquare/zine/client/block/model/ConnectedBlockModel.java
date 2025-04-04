@@ -2,6 +2,7 @@ package com.eightsidedsquare.zine.client.block.model;
 
 import com.eightsidedsquare.zine.client.util.ConnectedPattern;
 import com.eightsidedsquare.zine.client.util.ConnectedShape;
+import com.eightsidedsquare.zine.client.util.SpriteIds;
 import com.eightsidedsquare.zine.common.util.Offset;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.mesh.Mesh;
@@ -12,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.model.*;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -53,7 +53,7 @@ public class ConnectedBlockModel implements BlockStateModel, BlockStateModel.Unb
         this.baseName = baseName;
         for(ConnectedPattern pattern : ConnectedPattern.values()) {
             if(pattern.allMatch()) {
-                this.spriteIds.put(pattern, spriteId(switch (pattern.getNW()) {
+                this.spriteIds.put(pattern, SpriteIds.block(switch (pattern.getNW()) {
                     case ALL -> allTexture;
                     case CORNER -> cornersTexture;
                     case HORIZONTAL -> horizontalTexture;
@@ -61,7 +61,7 @@ public class ConnectedBlockModel implements BlockStateModel, BlockStateModel.Unb
                     case VERTICAL -> verticalTexture;
                 }));
             }else {
-                this.spriteIds.put(pattern, spriteId(pattern.addSuffix(baseName)));
+                this.spriteIds.put(pattern, SpriteIds.block(pattern.addSuffix(baseName)));
             }
         }
     }
@@ -124,12 +124,6 @@ public class ConnectedBlockModel implements BlockStateModel, BlockStateModel.Unb
                 this.getShape(offsets, flags, 5, 7, 6)
         );
     }
-
-    @SuppressWarnings("deprecation")
-    private static SpriteIdentifier spriteId(Identifier id) {
-        return new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, id);
-    }
-
     @Override
     public void emitQuads(QuadEmitter emitter, BlockRenderView world, BlockPos pos, BlockState state, Random random, Predicate<@Nullable Direction> cullTest) {
         Block block = state.getBlock();
@@ -141,6 +135,7 @@ public class ConnectedBlockModel implements BlockStateModel, BlockStateModel.Unb
 
     @Override
     public BlockStateModel bake(Baker baker) {
+        this.meshes.clear();
         ErrorCollectingSpriteGetter spriteGetter = baker.getSpriteGetter();
         Renderer renderer = Renderer.get();
         MutableMesh builder = renderer.mutableMesh();
