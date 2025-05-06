@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.eightsidedsquare.zinetest.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+  ],
+  "client": [
+    "client.AllayEntityModelMixin",
+    "client.EntityRenderDispatcherMixin",
+    "client.ModelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

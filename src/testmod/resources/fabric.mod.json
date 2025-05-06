@@ -21,6 +21,9 @@
       "com.eightsidedsquare.zinetest.datagen.TestmodDatagen"
     ]
   },
+  "mixins": [
+    "zinetest.mixins.json"
+  ],
   "depends": {
     "zine": "*",
     "fabricloader": "*",
