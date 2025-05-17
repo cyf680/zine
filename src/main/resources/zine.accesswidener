@@ -10,15 +10,8 @@ accessible method net/minecraft/entity/effect/StatusEffect <init> (Lnet/minecraf
 accessible method net/minecraft/world/poi/PointOfInterestTypes getStatesOfBlock (Lnet/minecraft/block/Block;)Ljava/util/Set;
 accessible method net/minecraft/world/gen/feature/size/FeatureSizeType <init> (Lcom/mojang/serialization/MapCodec;)V
 accessible method net/minecraft/registry/entry/RegistryEntry$Reference setValue (Ljava/lang/Object;)V
-accessible field net/minecraft/util/shape/BitSetVoxelSet storage Ljava/util/BitSet;
-accessible field net/minecraft/util/shape/BitSetVoxelSet minX I
-accessible field net/minecraft/util/shape/BitSetVoxelSet minY I
-accessible field net/minecraft/util/shape/BitSetVoxelSet minZ I
-accessible field net/minecraft/util/shape/BitSetVoxelSet maxX I
-accessible field net/minecraft/util/shape/BitSetVoxelSet maxY I
-accessible field net/minecraft/util/shape/BitSetVoxelSet maxZ I
-accessible method net/minecraft/util/shape/BitSetVoxelSet getIndex (III)I
 accessible method net/minecraft/client/texture/atlas/PalettedPermutationsAtlasSource <init> (Ljava/util/List;Lnet/minecraft/util/Identifier;Ljava/util/Map;)V
 accessible field net/minecraft/component/ComponentMap$Builder components Lit/unimi/dsi/fastutil/objects/Reference2ObjectMap;
 accessible class net/minecraft/predicate/entity/LocationPredicate$PositionRange
 accessible method net/minecraft/predicate/entity/LocationPredicate$PositionRange create (Lnet/minecraft/predicate/NumberRange$DoubleRange;Lnet/minecraft/predicate/NumberRange$DoubleRange;Lnet/minecraft/predicate/NumberRange$DoubleRange;)Ljava/util/Optional;
+accessible method net/minecraft/world/poi/PointOfInterestTypes registerStates (Lnet/minecraft/registry/entry/RegistryEntry;Ljava/util/Set;)V

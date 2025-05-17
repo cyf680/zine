@@ -460,8 +460,6 @@ public final class VanillaAdvancementModificationsImpl {
                             locationCondition.predicate()
                                     .flatMap(LocationPredicate::block)
                                     .ifPresent(blockPredicate -> blockPredicate.zine$addBlocks(WAX_ON_BLOCKS));
-                        }else if(lootCondition instanceof MatchToolLootCondition(Optional<ItemPredicate> optional)) {
-                            optional.ifPresent(itemPredicate -> itemPredicate.zine$addItems(SCRAPING_AXE_ITEMS));
                         }
                     }
                 });

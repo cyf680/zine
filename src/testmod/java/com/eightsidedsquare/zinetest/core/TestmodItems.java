@@ -10,7 +10,6 @@ public interface TestmodItems {
 
     Item TOURMALINE_BLOCK = TestmodBlocks.TOURMALINE_BLOCK.asItem();
     Item GOO = TestmodBlocks.GOO.asItem();
-    Item SILLY_SHAPE = TestmodBlocks.SILLY_SHAPE.asItem();
     Item WOOD = TestmodBlocks.WOOD.asItem();
     Item RAINBOW = TestmodBlocks.RAINBOW.asItem();
 

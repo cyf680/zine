@@ -1021,7 +1021,8 @@ public interface RegistryHelper {
      * @return the registry key for the registered point of interest type
      */
     default RegistryKey<PointOfInterestType> poi(String name, PointOfInterestType type) {
-        this.register(Registries.POINT_OF_INTEREST_TYPE, name, type);
+        RegistryEntry<PointOfInterestType> entry = this.registerReference(Registries.POINT_OF_INTEREST_TYPE, name, type);
+        PointOfInterestTypes.registerStates(entry, type.blockStates());
         return this.key(RegistryKeys.POINT_OF_INTEREST_TYPE, name);
     }
 

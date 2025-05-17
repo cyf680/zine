@@ -7,7 +7,6 @@ import com.eightsidedsquare.zine.client.atlas.RemapAtlasSource;
 import com.eightsidedsquare.zine.client.atlas.generator.NoiseSpriteGenerator;
 import com.eightsidedsquare.zine.client.atlas.generator.SpriteProperties;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient1D;
-import com.eightsidedsquare.zine.client.block.BlockStateDefinitionEvents;
 import com.eightsidedsquare.zine.client.block.model.FancyConnectedBlockModel;
 import com.eightsidedsquare.zine.client.block.model.TessellatingBlockModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
@@ -20,9 +19,7 @@ import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.data.*;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gl.UniformType;
@@ -122,12 +119,6 @@ public class TestmodClient implements ClientModInitializer {
             ));
             sources.add(new ConnectedTexturesAtlasSource(TestmodInit.id("block/wood")));
         });
-//        ModelLoadingPlugin.register(ctx -> ctx.modifyItemModelBeforeBake().register((model, context) -> {
-//            if(Items.DIAMOND.zine$modelEquals(context.itemId())) {
-//                return ItemModels.composite(model, ItemModels.basic(TEST_MODEL));
-//            }
-//            return model;
-//        }));
         ItemModelEvents.BEFORE_BAKE.register((id, unbaked) -> {
             if(Items.DIAMOND.zine$modelEquals(id)) {
                 return ItemModels.composite(unbaked, ItemModels.basic(TEST_MODEL));
@@ -148,31 +139,15 @@ public class TestmodClient implements ClientModInitializer {
             assetCollector.accept(TestmodItems.CHECKERED_ARMOR_TRIM_SMITHING_TEMPLATE, ItemModels.basic(ModelIds.getItemModelId(TestmodItems.CHECKERED_ARMOR_TRIM_SMITHING_TEMPLATE)));
             assetCollector.accept(TestmodItems.TOURMALINE_BLOCK, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK)));
             assetCollector.accept(TestmodItems.GOO, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.GOO)));
-            assetCollector.accept(TestmodItems.SILLY_SHAPE, ItemModels.basic(ModelIds.getBlockModelId(Blocks.BIG_DRIPLEAF)));
             assetCollector.accept(TestmodItems.WOOD, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.WOOD)));
             assetCollector.accept(TestmodItems.RAINBOW, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.RAINBOW)));
-        });
-        BlockStateDefinitionEvents.ADD_DEFINITIONS.register(blockStateCollector -> {
-//            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
-//                    TestmodBlocks.TOURMALINE_BLOCK,
-//                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))
-//            ));
-            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
-                    TestmodBlocks.GOO,
-                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.GOO))
-            ));
-            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
-                    TestmodBlocks.SILLY_SHAPE,
-                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(Blocks.BIG_DRIPLEAF))
-            ));
-            blockStateCollector.accept(VariantsBlockModelDefinitionCreator.of(
-                    TestmodBlocks.WOOD,
-                    BlockStateModelGenerator.createWeightedVariant(ModelIds.getBlockModelId(TestmodBlocks.WOOD))
-            ));
         });
         ModelLoadingPlugin.register(pluginCtx -> {
             pluginCtx.registerBlockStateResolver(TestmodBlocks.TOURMALINE_BLOCK, ctx -> {
                 ctx.setModel(ctx.block().getDefaultState(), new SimpleBlockStateModel.Unbaked(new ModelVariant(ModelIds.getBlockModelId(TestmodBlocks.TOURMALINE_BLOCK))).cached());
+            });
+            pluginCtx.registerBlockStateResolver(TestmodBlocks.GOO, ctx -> {
+                ctx.setModel(ctx.block().getDefaultState(), new SimpleBlockStateModel.Unbaked(new ModelVariant(ModelIds.getBlockModelId(TestmodBlocks.GOO))).cached());
             });
             pluginCtx.registerBlockStateResolver(TestmodBlocks.WOOD, ctx -> {
                 ctx.setModel(ctx.block().getDefaultState(), new FancyConnectedBlockModel(TestmodInit.id("block/wood")).cached());
@@ -184,11 +159,16 @@ public class TestmodClient implements ClientModInitializer {
                 ).cached());
             });
         });
+        ModelLoadingPlugin.register(ctx -> ctx.modifyItemModelBeforeBake().register((model, context) -> {
+            if(Items.DIAMOND.zine$modelEquals(context.itemId())) {
+                return ItemModels.composite(model, ItemModels.basic(TEST_MODEL));
+            }
+            return model;
+        }));
         LanguageEvents.MODIFY_TRANSLATIONS.register((translations, languageCode, rightToLeft) -> {
             translations.putIfAbsent(TestmodItems.TOURMALINE.getTranslationKey(), "Tourmaline");
             translations.putIfAbsent(TestmodItems.CHECKERED_ARMOR_TRIM_SMITHING_TEMPLATE.getTranslationKey(), "Checkered Armor Trim");
             translations.putIfAbsent(TestmodItems.TOURMALINE_BLOCK.getTranslationKey(), "Block of Tourmaline");
-            translations.putIfAbsent(TestmodItems.SILLY_SHAPE.getTranslationKey(), "Silly Shape");
             translations.putIfAbsent(TestmodItems.GOO.getTranslationKey(), "Goo");
             translations.putIfAbsent(TestmodItems.WOOD.getTranslationKey(), "Wood");
             translations.putIfAbsent(TestmodItems.RAINBOW.getTranslationKey(), "Rainbow");
@@ -196,7 +176,5 @@ public class TestmodClient implements ClientModInitializer {
         ArmorTrimRegistry.registerMaterial(TestmodInit.TOURMALINE_TRIM_MATERIAL);
         ArmorTrimRegistry.registerMaterial(TestmodInit.OBSIDIAN_TRIM_MATERIAL);
         ArmorTrimRegistry.registerPattern(TestmodInit.CHECKERED_TRIM_PATTERN);
-
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(), TestmodBlocks.SILLY_SHAPE);
     }
 }

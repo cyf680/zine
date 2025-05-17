@@ -7,9 +7,12 @@
   "authors": [
     "EightSidedSquare"
   ],
-  "contact": {},
+  "contact": {
+    "sources": "https://github.com/8s2/zine",
+    "homepage": "https://modrinth.com/mod/zine"
+  },
   "license": "ARR",
-  "icon": "assets/zine/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
@@ -33,8 +36,6 @@
       "net/minecraft/class_161": ["com/eightsidedsquare/zine/common/advancement/AdvancementExtensions"],
       "net/minecraft/class_170": ["com/eightsidedsquare/zine/common/advancement/AdvancementRewardsExtensions"],
       "net/minecraft/class_185": ["com/eightsidedsquare/zine/common/advancement/AdvancementDisplayExtensions"],
-      "net/minecraft/class_251": ["com/eightsidedsquare/zine/common/util/shape/VoxelSetExtensions"],
-      "net/minecraft/class_265": ["com/eightsidedsquare/zine/common/util/shape/VoxelShapeExtensions"],
       "net/minecraft/class_1011": ["com/eightsidedsquare/zine/client/atlas/NativeImageExtensions"],
       "net/minecraft/class_1792": ["com/eightsidedsquare/zine/common/item/ItemExtensions"],
       "net/minecraft/class_1887$class_9700": ["com/eightsidedsquare/zine/common/enchantment/EnchantmentBuilderExtensions"],
