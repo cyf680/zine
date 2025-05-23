@@ -25,7 +25,7 @@ public record NoiseSpriteGenerator(Gradient gradient,
             Gradient.CODEC.fieldOf("gradient").forGetter(NoiseSpriteGenerator::gradient),
             DoublePerlinNoiseSampler.NoiseParameters.CODEC.fieldOf("parameters").forGetter(NoiseSpriteGenerator::parameters),
             Codec.LONG.optionalFieldOf("seed", 0L).forGetter(NoiseSpriteGenerator::seed),
-            CodecUtil.VECTOR_2F.optionalFieldOf("scale", new Vector2f(1, 1)).forGetter(NoiseSpriteGenerator::scale),
+            Codecs.VECTOR_2F.optionalFieldOf("scale", new Vector2f(1, 1)).forGetter(NoiseSpriteGenerator::scale),
             Codecs.VECTOR_3F.optionalFieldOf("velocity", new Vector3f(0, 0, 1)).forGetter(NoiseSpriteGenerator::velocity),
             Codec.floatRange(0, 0.5f).optionalFieldOf("blend_margin", 0f).forGetter(NoiseSpriteGenerator::blendMargin)
 

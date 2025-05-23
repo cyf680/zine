@@ -18,10 +18,6 @@ import java.util.function.Function;
 public final class CodecUtil {
 
     public static final Codec<NbtElement> NBT_ELEMENT = Codecs.fromOps(NbtOps.INSTANCE);
-    public static final Codec<Vector2f> VECTOR_2F = Codec.FLOAT.listOf().comapFlatMap(
-            list -> Util.decodeFixedLengthList(list, 2).map(floats -> new Vector2f(floats.getFirst(), floats.get(1))),
-            vec2f -> List.of(vec2f.x(), vec2f.y())
-    );
     public static final Codec<EulerAngle> EULER_ANGLE = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.optionalFieldOf("pitch", 0f).forGetter(EulerAngle::pitch),
             Codec.FLOAT.optionalFieldOf("yaw", 0f).forGetter(EulerAngle::yaw),

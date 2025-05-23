@@ -57,7 +57,7 @@ public class TestmodClient implements ClientModInitializer {
     public static final Function<Identifier, RenderLayer> CUSTOM_ENTITY = Util.memoize(
             (texture) -> {
                 RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-                        .texture(new RenderPhase.Texture(texture, TriState.FALSE, false))
+                        .texture(new RenderPhase.Texture(texture, false))
                         .lightmap(RenderPhase.ENABLE_LIGHTMAP)
                         .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
                         .build(true);
