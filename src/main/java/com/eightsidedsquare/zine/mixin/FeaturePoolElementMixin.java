@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.world.structure.FeaturePoolElementExtensions;
+import com.eightsidedsquare.zine.common.world.structure.ZineFeaturePoolElement;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.pool.FeaturePoolElement;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(FeaturePoolElement.class)
-public abstract class FeaturePoolElementMixin implements FeaturePoolElementExtensions {
+public abstract class FeaturePoolElementMixin implements ZineFeaturePoolElement {
 
     @Shadow @Final @Mutable
     private RegistryEntry<PlacedFeature> feature;

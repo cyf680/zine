@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin.client;
 
-import com.eightsidedsquare.zine.client.state.EntityRenderStateExtensions;
+import com.eightsidedsquare.zine.client.state.ZineEntityRenderState;
 import com.eightsidedsquare.zine.client.state.RenderStateDataKey;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(EntityRenderState.class)
-public abstract class EntityRenderStateMixin implements EntityRenderStateExtensions {
+public abstract class EntityRenderStateMixin implements ZineEntityRenderState {
 
     @Unique
     private final Reference2ObjectMap<RenderStateDataKey<?>, Object> data = new Reference2ObjectArrayMap<>();

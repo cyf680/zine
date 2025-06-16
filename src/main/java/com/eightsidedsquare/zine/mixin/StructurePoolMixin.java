@@ -1,7 +1,7 @@
 package com.eightsidedsquare.zine.mixin;
 
 import com.eightsidedsquare.zine.common.util.ZineUtil;
-import com.eightsidedsquare.zine.common.world.structure.StructurePoolExtensions;
+import com.eightsidedsquare.zine.common.world.structure.ZineStructurePool;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Mixin(StructurePool.class)
-public abstract class StructurePoolMixin implements StructurePoolExtensions {
+public abstract class StructurePoolMixin implements ZineStructurePool {
 
     @Shadow @Final
     private ObjectArrayList<StructurePoolElement> elements;

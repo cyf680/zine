@@ -18,9 +18,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.component.ComponentType;
+import net.minecraft.dialog.action.DialogAction;
 import net.minecraft.dialog.body.DialogBody;
 import net.minecraft.dialog.input.InputControl;
-import net.minecraft.dialog.submit.SubmitMethod;
 import net.minecraft.dialog.type.Dialog;
 import net.minecraft.enchantment.EnchantmentLevelBasedValue;
 import net.minecraft.enchantment.effect.EnchantmentEntityEffect;
@@ -1949,13 +1949,13 @@ public interface RegistryHelper {
     }
 
     /**
-     * @param name the name of the submit method
-     * @param codec the codec of the submit method
-     * @return the registered submit method codec
-     * @param <T> the type of submit method
+     * @param name the name of the dialog action
+     * @param codec the codec of the dialog action
+     * @return the registered dialog action codec
+     * @param <T> the type of dialog action
      */
-    default <T extends SubmitMethod> MapCodec<T> submitMethod(String name, MapCodec<T> codec) {
-        return this.register(Registries.SUBMIT_METHOD_TYPE, name, codec);
+    default <T extends DialogAction> MapCodec<T> dialogAction(String name, MapCodec<T> codec) {
+        return this.register(Registries.DIALOG_ACTION_TYPE, name, codec);
     }
 
     /**

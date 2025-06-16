@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.criterion.InventoryChangedCriterionConditionsExtensions;
+import com.eightsidedsquare.zine.common.criterion.ZineInventoryChangedCriterionConditions;
 import com.eightsidedsquare.zine.common.util.ZineUtil;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Mixin(InventoryChangedCriterion.Conditions.class)
-public abstract class InventoryChangedCriterionConditionsMixin implements InventoryChangedCriterionConditionsExtensions {
+public abstract class InventoryChangedCriterionConditionsMixin implements ZineInventoryChangedCriterionConditions {
 
     @Shadow @Final @Mutable
     private Optional<LootContextPredicate> player;

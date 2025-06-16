@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.predicate.EntityEffectPredicateExtensions;
+import com.eightsidedsquare.zine.common.predicate.ZineEntityEffectPredicate;
 import com.eightsidedsquare.zine.common.util.ZineUtil;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.predicate.entity.EntityEffectPredicate;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Map;
 
 @Mixin(EntityEffectPredicate.class)
-public abstract class EntityEffectPredicateMixin implements EntityEffectPredicateExtensions {
+public abstract class EntityEffectPredicateMixin implements ZineEntityEffectPredicate {
 
     @Shadow @Final @Mutable
     private Map<RegistryEntry<StatusEffect>, EntityEffectPredicate.EffectData> effects;

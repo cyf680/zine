@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin.client;
 
-import com.eightsidedsquare.zine.client.atlas.PalettedPermutationsAtlasSourceExtensions;
+import com.eightsidedsquare.zine.client.atlas.ZinePalettedPermutationsAtlasSource;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -14,7 +14,7 @@ import java.util.function.IntUnaryOperator;
 import java.util.function.Supplier;
 
 @Mixin(PalettedPermutationsAtlasSource.class)
-public abstract class PalettedPermutationsAtlasSourceMixin implements PalettedPermutationsAtlasSourceExtensions {
+public abstract class PalettedPermutationsAtlasSourceMixin implements ZinePalettedPermutationsAtlasSource {
 
     @Shadow @Final @Mutable
     private List<Identifier> textures;
