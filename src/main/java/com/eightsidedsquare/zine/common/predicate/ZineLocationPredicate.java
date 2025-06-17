@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
-public interface LocationPredicateExtensions {
+public interface ZineLocationPredicate {
 
     default void zine$setPosition(NumberRange.DoubleRange x, NumberRange.DoubleRange y, NumberRange.DoubleRange z) {
         throw new UnsupportedOperationException("Implemented via mixin.");

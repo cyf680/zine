@@ -12,32 +12,23 @@ import com.eightsidedsquare.zine.client.block.model.TessellatingBlockModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
-import com.eightsidedsquare.zine.client.rendering.ShaderUniformRegistry;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistry;
 import com.eightsidedsquare.zinetest.core.TestmodBlocks;
 import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
-import com.mojang.blaze3d.pipeline.RenderPipeline;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.minecraft.client.data.*;
-import net.minecraft.client.gl.RenderPipelines;
-import net.minecraft.client.gl.UniformType;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.model.SimpleBlockStateModel;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.TriState;
-import net.minecraft.util.Util;
+import net.minecraft.util.*;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class TestmodClient implements ClientModInitializer {
 

@@ -1,4 +1,4 @@
-package com.eightsidedsquare.zine.mixin;
+package com.eightsidedsquare.zine.mixin.criterion;
 
 import com.eightsidedsquare.zine.common.criterion.ZineInventoryChangedCriterionConditions;
 import com.eightsidedsquare.zine.common.util.ZineUtil;
@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,18 +19,10 @@ import java.util.Optional;
 public abstract class InventoryChangedCriterionConditionsMixin implements ZineInventoryChangedCriterionConditions {
 
     @Shadow @Final @Mutable
-    private Optional<LootContextPredicate> player;
-
-    @Shadow @Final @Mutable
     private InventoryChangedCriterion.Conditions.Slots slots;
 
     @Shadow @Final @Mutable
     private List<ItemPredicate> items;
-
-    @Override
-    public void zine$setPlayer(@Nullable LootContextPredicate player) {
-        this.player = Optional.ofNullable(player);
-    }
 
     @Override
     public void zine$setSlots(InventoryChangedCriterion.Conditions.Slots slots) {
@@ -47,7 +40,7 @@ public abstract class InventoryChangedCriterionConditionsMixin implements ZineIn
     }
 
     @Override
-    public void zine$addItems(List<ItemPredicate> items) {
+    public void zine$addItems(Collection<ItemPredicate> items) {
         this.items = ZineUtil.addAllOrUnfreeze(this.items, items);
     }
 }
