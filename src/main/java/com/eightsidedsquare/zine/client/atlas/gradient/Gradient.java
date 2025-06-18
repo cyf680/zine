@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.client.atlas.gradient;
 
-import com.eightsidedsquare.zine.core.ModInit;
+import com.eightsidedsquare.zine.core.ZineMod;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.util.Identifier;
@@ -16,10 +16,10 @@ public interface Gradient {
     Codec<Gradient> CODEC = ID_MAPPER.getCodec(Identifier.CODEC).dispatch(Gradient::getCodec, Function.identity());
 
     static void bootstrap() {
-        ID_MAPPER.put(ModInit.id("flat"), FlatGradient.CODEC);
-        ID_MAPPER.put(ModInit.id("1d"), Gradient1D.MAP_CODEC);
-        ID_MAPPER.put(ModInit.id("2d"), Gradient2D.MAP_CODEC);
-        ID_MAPPER.put(ModInit.id("3d"), Gradient3D.MAP_CODEC);
+        ID_MAPPER.put(ZineMod.id("flat"), FlatGradient.CODEC);
+        ID_MAPPER.put(ZineMod.id("1d"), Gradient1D.MAP_CODEC);
+        ID_MAPPER.put(ZineMod.id("2d"), Gradient2D.MAP_CODEC);
+        ID_MAPPER.put(ZineMod.id("3d"), Gradient3D.MAP_CODEC);
     }
 
     MapCodec<? extends Gradient> getCodec();

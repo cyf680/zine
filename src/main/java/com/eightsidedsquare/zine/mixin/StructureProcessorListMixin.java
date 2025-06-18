@@ -1,7 +1,7 @@
 package com.eightsidedsquare.zine.mixin;
 
 import com.eightsidedsquare.zine.common.util.ZineUtil;
-import com.eightsidedsquare.zine.common.world.structure.StructureProcessorListExtensions;
+import com.eightsidedsquare.zine.common.world.structure.ZineStructureProcessorList;
 import net.minecraft.structure.processor.StructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorList;
 import org.spongepowered.asm.mixin.Final;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.List;
 
 @Mixin(StructureProcessorList.class)
-public abstract class StructureProcessorListMixin implements StructureProcessorListExtensions {
+public abstract class StructureProcessorListMixin implements ZineStructureProcessorList {
 
     @Shadow @Final @Mutable
     private List<StructureProcessor> list;

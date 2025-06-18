@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.world.structure.SinglePoolElementExtensions;
+import com.eightsidedsquare.zine.common.world.structure.ZineSinglePoolElement;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.StructureLiquidSettings;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Optional;
 
 @Mixin(SinglePoolElement.class)
-public abstract class SinglePoolElementMixin implements SinglePoolElementExtensions {
+public abstract class SinglePoolElementMixin implements ZineSinglePoolElement {
 
     @Shadow @Final @Mutable
     protected Either<Identifier, StructureTemplate> location;

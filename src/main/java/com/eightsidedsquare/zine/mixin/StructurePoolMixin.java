@@ -1,7 +1,7 @@
 package com.eightsidedsquare.zine.mixin;
 
 import com.eightsidedsquare.zine.common.util.ZineUtil;
-import com.eightsidedsquare.zine.common.world.structure.StructurePoolExtensions;
+import com.eightsidedsquare.zine.common.world.structure.ZineStructurePool;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -13,10 +13,9 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Mixin(StructurePool.class)
-public abstract class StructurePoolMixin implements StructurePoolExtensions {
+public abstract class StructurePoolMixin implements ZineStructurePool {
 
     @Shadow @Final
     private ObjectArrayList<StructurePoolElement> elements;
@@ -51,11 +50,6 @@ public abstract class StructurePoolMixin implements StructurePoolExtensions {
         this.elementWeights = ZineUtil.addOrUnfreeze(this.elementWeights, new Pair<>(element, weight));
         // Reset highest y so it can be recalculated
         this.highestY = Integer.MIN_VALUE;
-    }
-
-    @Override
-    public void zine$addElement(Function<StructurePool.Projection, ? extends StructurePoolElement> elementGetter, int weight, StructurePool.Projection projection) {
-        this.zine$addElement(elementGetter.apply(projection), weight);
     }
 
     @Override

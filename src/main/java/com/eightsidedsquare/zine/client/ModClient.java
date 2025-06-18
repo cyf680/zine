@@ -9,7 +9,7 @@ import com.eightsidedsquare.zine.client.atlas.gradient.Gradient;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistryImpl;
-import com.eightsidedsquare.zine.core.ModInit;
+import com.eightsidedsquare.zine.core.ZineMod;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.AtlasSourceRegistry;
 import net.minecraft.util.Identifier;
@@ -22,9 +22,9 @@ public class ModClient implements ClientModInitializer {
 
         this.registerEvents();
 
-        AtlasSourceRegistry.register(ModInit.id("generator"), GeneratorAtlasSource.CODEC);
-        AtlasSourceRegistry.register(ModInit.id("remap"), RemapAtlasSource.CODEC);
-        AtlasSourceRegistry.register(ModInit.id("connected_textures"), ConnectedTexturesAtlasSource.CODEC);
+        AtlasSourceRegistry.register(ZineMod.id("generator"), GeneratorAtlasSource.CODEC);
+        AtlasSourceRegistry.register(ZineMod.id("remap"), RemapAtlasSource.CODEC);
+        AtlasSourceRegistry.register(ZineMod.id("connected_textures"), ConnectedTexturesAtlasSource.CODEC);
     }
 
     private void callBootstraps() {

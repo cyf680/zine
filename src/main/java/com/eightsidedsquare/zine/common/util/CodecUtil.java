@@ -7,10 +7,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.util.Util;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.EulerAngle;
-import org.joml.Vector2f;
 
 import java.util.List;
 import java.util.function.Function;
@@ -18,10 +16,6 @@ import java.util.function.Function;
 public final class CodecUtil {
 
     public static final Codec<NbtElement> NBT_ELEMENT = Codecs.fromOps(NbtOps.INSTANCE);
-    public static final Codec<Vector2f> VECTOR_2F = Codec.FLOAT.listOf().comapFlatMap(
-            list -> Util.decodeFixedLengthList(list, 2).map(floats -> new Vector2f(floats.getFirst(), floats.get(1))),
-            vec2f -> List.of(vec2f.x(), vec2f.y())
-    );
     public static final Codec<EulerAngle> EULER_ANGLE = RecordCodecBuilder.create(instance -> instance.group(
             Codec.FLOAT.optionalFieldOf("pitch", 0f).forGetter(EulerAngle::pitch),
             Codec.FLOAT.optionalFieldOf("yaw", 0f).forGetter(EulerAngle::yaw),

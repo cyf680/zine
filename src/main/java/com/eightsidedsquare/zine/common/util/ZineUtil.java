@@ -80,4 +80,15 @@ public final class ZineUtil {
         return RegistryEntryList.of(list);
     }
 
+    public static <T> RegistryEntryList<T> mergeValues(RegistryEntryList<T> first, RegistryEntryList<T> second) {
+        if(first.size() == 0) {
+            return second;
+        }else if(second.size() == 0) {
+            return first;
+        }
+        List<RegistryEntry<T>> list = new ObjectArrayList<>(first.iterator());
+        second.forEach(list::add);
+        return RegistryEntryList.of(list);
+    }
+
 }

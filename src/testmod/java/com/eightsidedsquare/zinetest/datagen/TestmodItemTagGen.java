@@ -1,6 +1,5 @@
 package com.eightsidedsquare.zinetest.datagen;
 
-import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -18,7 +17,7 @@ public class TestmodItemTagGen extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        this.getOrCreateTagBuilder(ItemTags.TRIM_MATERIALS)
+        this.valueLookupBuilder(ItemTags.TRIM_MATERIALS)
                 .add(TestmodItems.TOURMALINE)
                 .add(Items.OBSIDIAN);
     }

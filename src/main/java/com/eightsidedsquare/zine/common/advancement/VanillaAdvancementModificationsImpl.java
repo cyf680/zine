@@ -1,6 +1,7 @@
 package com.eightsidedsquare.zine.common.advancement;
 
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Reference2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.criterion.*;
 import net.minecraft.block.Block;

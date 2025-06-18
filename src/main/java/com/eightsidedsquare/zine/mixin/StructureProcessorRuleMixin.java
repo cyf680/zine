@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.world.structure.StructureProcessorRuleExtensions;
+import com.eightsidedsquare.zine.common.world.structure.ZineStructureProcessorRule;
 import net.minecraft.block.BlockState;
 import net.minecraft.structure.processor.StructureProcessorRule;
 import net.minecraft.structure.rule.PosRuleTest;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(StructureProcessorRule.class)
-public abstract class StructureProcessorRuleMixin implements StructureProcessorRuleExtensions {
+public abstract class StructureProcessorRuleMixin implements ZineStructureProcessorRule {
 
     @Shadow @Final @Mutable
     private RuleTest inputPredicate;

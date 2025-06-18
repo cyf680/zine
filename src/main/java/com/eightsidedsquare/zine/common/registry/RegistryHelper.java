@@ -18,6 +18,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.component.ComponentType;
+import net.minecraft.dialog.action.DialogAction;
+import net.minecraft.dialog.body.DialogBody;
+import net.minecraft.dialog.input.InputControl;
+import net.minecraft.dialog.type.Dialog;
 import net.minecraft.enchantment.EnchantmentLevelBasedValue;
 import net.minecraft.enchantment.effect.EnchantmentEntityEffect;
 import net.minecraft.enchantment.effect.EnchantmentLocationBasedEffect;
@@ -1922,6 +1926,46 @@ public interface RegistryHelper {
      */
     default <T extends SpawnCondition> MapCodec<T> spawnCondition(String name, MapCodec<T> codec) {
         return this.register(Registries.SPAWN_CONDITION_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the dialog
+     * @param codec the codec of the dialog
+     * @return the registered dialog codec
+     * @param <T> the type of dialog
+     */
+    default <T extends Dialog> MapCodec<T> dialog(String name, MapCodec<T> codec) {
+        return this.register(Registries.DIALOG_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the dialog body
+     * @param codec the codec of the dialog body
+     * @return the registered dialog body codec
+     * @param <T> the type of dialog body
+     */
+    default <T extends DialogBody> MapCodec<T> dialogBody(String name, MapCodec<T> codec) {
+        return this.register(Registries.DIALOG_BODY_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the dialog action
+     * @param codec the codec of the dialog action
+     * @return the registered dialog action codec
+     * @param <T> the type of dialog action
+     */
+    default <T extends DialogAction> MapCodec<T> dialogAction(String name, MapCodec<T> codec) {
+        return this.register(Registries.DIALOG_ACTION_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the input control
+     * @param codec the codec of the input control
+     * @return the registered input control codec
+     * @param <T> the type of input control
+     */
+    default <T extends InputControl> MapCodec<T> inputControl(String name, MapCodec<T> codec) {
+        return this.register(Registries.INPUT_CONTROL_TYPE, name, codec);
     }
 
     private <T extends Block> T registerBlockItem(String name, T block) {

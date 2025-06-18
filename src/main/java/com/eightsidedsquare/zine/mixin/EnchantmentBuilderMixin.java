@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.mixin;
 
-import com.eightsidedsquare.zine.common.enchantment.EnchantmentBuilderExtensions;
+import com.eightsidedsquare.zine.common.enchantment.ZineEnchantmentBuilder;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.ComponentType;
 import net.minecraft.enchantment.Enchantment;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Enchantment.Builder.class)
-public abstract class EnchantmentBuilderMixin implements EnchantmentBuilderExtensions {
+public abstract class EnchantmentBuilderMixin implements ZineEnchantmentBuilder {
 
     @Shadow @Final @Mutable
     private Enchantment.Definition definition;
