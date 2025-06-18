@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
-import java.util.function.Function;
 
 @Mixin(StructurePool.class)
 public abstract class StructurePoolMixin implements ZineStructurePool {
@@ -51,11 +50,6 @@ public abstract class StructurePoolMixin implements ZineStructurePool {
         this.elementWeights = ZineUtil.addOrUnfreeze(this.elementWeights, new Pair<>(element, weight));
         // Reset highest y so it can be recalculated
         this.highestY = Integer.MIN_VALUE;
-    }
-
-    @Override
-    public void zine$addElement(Function<StructurePool.Projection, ? extends StructurePoolElement> elementGetter, int weight, StructurePool.Projection projection) {
-        this.zine$addElement(elementGetter.apply(projection), weight);
     }
 
     @Override

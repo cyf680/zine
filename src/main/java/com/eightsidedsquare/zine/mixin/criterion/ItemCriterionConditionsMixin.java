@@ -1,7 +1,10 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
 import com.eightsidedsquare.zine.common.criterion.ZineItemCriterionConditions;
+import com.eightsidedsquare.zine.common.criterion.ZineLocationCriterionConditions;
+import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
 import net.minecraft.advancement.criterion.*;
+import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -11,27 +14,23 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Optional;
 
-@Mixin(value = {
-        BeeNestDestroyedCriterion.Conditions.class,
-        ConsumeItemCriterion.Conditions.class,
-        EnchantedItemCriterion.Conditions.class,
-        FilledBucketCriterion.Conditions.class,
-        FishingRodHookedCriterion.Conditions.class,
-        ItemDurabilityChangedCriterion.Conditions.class,
-        PlayerInteractedWithEntityCriterion.Conditions.class,
-        ShotCrossbowCriterion.Conditions.class,
-        ThrownItemPickedUpByEntityCriterion.Conditions.class,
-        UsedTotemCriterion.Conditions.class,
-        UsingItemCriterion.Conditions.class,
-        VillagerTradeCriterion.Conditions.class
-})
-public abstract class ItemCriterionConditionsMixin implements ZineItemCriterionConditions {
+@Mixin(ItemCriterion.Conditions.class)
+public abstract class ItemCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineLocationCriterionConditions {
 
-    @Shadow(remap = false) @Final @Mutable
-    private Optional<ItemPredicate> item;
+    @Shadow @Final @Mutable
+    private Optional<LootContextPredicate> player;
+
+    @Shadow @Final @Mutable
+    private Optional<LootContextPredicate> location;
 
     @Override
-    public void zine$setItem(@Nullable ItemPredicate item) {
-        this.item = Optional.ofNullable(item);
+    public void zine$setPlayer(@Nullable LootContextPredicate player) {
+        this.player = Optional.ofNullable(player);
+    }
+
+    @Override
+    public void zine$setLocation(@Nullable LootContextPredicate location) {
+        this.location = Optional.ofNullable(location);
     }
 }

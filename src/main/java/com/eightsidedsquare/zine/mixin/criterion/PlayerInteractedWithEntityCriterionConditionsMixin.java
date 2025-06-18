@@ -1,10 +1,9 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
-import com.eightsidedsquare.zine.common.criterion.ZineEnchantedItemCriterionConditions;
+import com.eightsidedsquare.zine.common.criterion.ZineEntityCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZineItemCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.EnchantedItemCriterion;
-import net.minecraft.predicate.NumberRange;
+import net.minecraft.advancement.criterion.PlayerInteractedWithEntityCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import org.jetbrains.annotations.Nullable;
@@ -15,10 +14,10 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Optional;
 
-@Mixin(EnchantedItemCriterion.Conditions.class)
-public abstract class EnchantedItemCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+@Mixin(PlayerInteractedWithEntityCriterion.Conditions.class)
+public abstract class PlayerInteractedWithEntityCriterionConditionsMixin implements ZinePlayerCriterionConditions,
         ZineItemCriterionConditions,
-        ZineEnchantedItemCriterionConditions {
+        ZineEntityCriterionConditions {
 
     @Shadow @Final @Mutable
     private Optional<LootContextPredicate> player;
@@ -27,7 +26,7 @@ public abstract class EnchantedItemCriterionConditionsMixin implements ZinePlaye
     private Optional<ItemPredicate> item;
 
     @Shadow @Final @Mutable
-    private NumberRange.IntRange levels;
+    private Optional<LootContextPredicate> entity;
 
     @Override
     public void zine$setPlayer(@Nullable LootContextPredicate player) {
@@ -40,7 +39,7 @@ public abstract class EnchantedItemCriterionConditionsMixin implements ZinePlaye
     }
 
     @Override
-    public void zine$setLevels(NumberRange.IntRange levels) {
-        this.levels = levels;
+    public void zine$setEntity(@Nullable LootContextPredicate entity) {
+        this.entity = Optional.ofNullable(entity);
     }
 }

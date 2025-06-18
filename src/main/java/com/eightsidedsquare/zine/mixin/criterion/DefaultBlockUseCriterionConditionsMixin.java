@@ -1,9 +1,8 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
 import com.eightsidedsquare.zine.common.criterion.ZineLocationCriterionConditions;
-import net.minecraft.advancement.criterion.AnyBlockUseCriterion;
+import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
 import net.minecraft.advancement.criterion.DefaultBlockUseCriterion;
-import net.minecraft.advancement.criterion.ItemCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -13,15 +12,20 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Optional;
 
-@Mixin(value = {
-        AnyBlockUseCriterion.Conditions.class,
-        DefaultBlockUseCriterion.Conditions.class,
-        ItemCriterion.Conditions.class
-})
-public abstract class LocationCriterionConditionsMixin implements ZineLocationCriterionConditions {
+@Mixin(DefaultBlockUseCriterion.Conditions.class)
+public abstract class DefaultBlockUseCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineLocationCriterionConditions {
 
-    @Shadow(remap = false) @Final @Mutable
+    @Shadow @Final @Mutable
+    private Optional<LootContextPredicate> player;
+
+    @Shadow @Final @Mutable
     private Optional<LootContextPredicate> location;
+
+    @Override
+    public void zine$setPlayer(@Nullable LootContextPredicate player) {
+        this.player = Optional.ofNullable(player);
+    }
 
     @Override
     public void zine$setLocation(@Nullable LootContextPredicate location) {

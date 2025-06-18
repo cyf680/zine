@@ -1,9 +1,8 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
-import com.eightsidedsquare.zine.common.criterion.ZineConstructBeaconCriterionConditions;
+import com.eightsidedsquare.zine.common.criterion.ZineEntityCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.ConstructBeaconCriterion;
-import net.minecraft.predicate.NumberRange;
+import net.minecraft.advancement.criterion.SummonedEntityCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -13,15 +12,15 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Optional;
 
-@Mixin(ConstructBeaconCriterion.Conditions.class)
-public abstract class ConstructBeaconCriterionConditionsMixin implements ZinePlayerCriterionConditions,
-        ZineConstructBeaconCriterionConditions {
+@Mixin(SummonedEntityCriterion.Conditions.class)
+public abstract class SummonedEntityCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineEntityCriterionConditions {
 
     @Shadow @Final @Mutable
     private Optional<LootContextPredicate> player;
 
     @Shadow @Final @Mutable
-    private NumberRange.IntRange level;
+    private Optional<LootContextPredicate> entity;
 
     @Override
     public void zine$setPlayer(@Nullable LootContextPredicate player) {
@@ -29,7 +28,7 @@ public abstract class ConstructBeaconCriterionConditionsMixin implements ZinePla
     }
 
     @Override
-    public void zine$setLevel(NumberRange.IntRange level) {
-        this.level = level;
+    public void zine$setEntity(@Nullable LootContextPredicate entity) {
+        this.entity = Optional.ofNullable(entity);
     }
 }

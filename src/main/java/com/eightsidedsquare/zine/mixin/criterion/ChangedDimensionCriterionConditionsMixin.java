@@ -1,6 +1,7 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
 import com.eightsidedsquare.zine.common.criterion.ZineChangedDimensionCriterionConditions;
+import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
 import net.minecraft.advancement.criterion.ChangedDimensionCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.registry.RegistryKey;
@@ -14,13 +15,22 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Optional;
 
 @Mixin(ChangedDimensionCriterion.Conditions.class)
-public abstract class ChangedDimensionCriterionConditionsMixin implements ZineChangedDimensionCriterionConditions {
+public abstract class ChangedDimensionCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineChangedDimensionCriterionConditions {
+
+    @Shadow @Final @Mutable
+    private Optional<LootContextPredicate> player;
 
     @Shadow @Final @Mutable
     private Optional<RegistryKey<World>> from;
 
     @Shadow @Final @Mutable
     private Optional<RegistryKey<World>> to;
+
+    @Override
+    public void zine$setPlayer(@Nullable LootContextPredicate player) {
+        this.player = Optional.ofNullable(player);
+    }
 
     @Override
     public void zine$setFrom(@Nullable RegistryKey<World> from) {

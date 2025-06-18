@@ -1,10 +1,10 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
-import com.eightsidedsquare.zine.common.criterion.ZineConstructBeaconCriterionConditions;
+import com.eightsidedsquare.zine.common.criterion.ZineItemCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.ConstructBeaconCriterion;
-import net.minecraft.predicate.NumberRange;
+import net.minecraft.advancement.criterion.UsedTotemCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
+import net.minecraft.predicate.item.ItemPredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,15 +13,15 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Optional;
 
-@Mixin(ConstructBeaconCriterion.Conditions.class)
-public abstract class ConstructBeaconCriterionConditionsMixin implements ZinePlayerCriterionConditions,
-        ZineConstructBeaconCriterionConditions {
+@Mixin(UsedTotemCriterion.Conditions.class)
+public abstract class UsedTotemCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineItemCriterionConditions {
 
     @Shadow @Final @Mutable
     private Optional<LootContextPredicate> player;
 
     @Shadow @Final @Mutable
-    private NumberRange.IntRange level;
+    private Optional<ItemPredicate> item;
 
     @Override
     public void zine$setPlayer(@Nullable LootContextPredicate player) {
@@ -29,7 +29,7 @@ public abstract class ConstructBeaconCriterionConditionsMixin implements ZinePla
     }
 
     @Override
-    public void zine$setLevel(NumberRange.IntRange level) {
-        this.level = level;
+    public void zine$setItem(@Nullable ItemPredicate item) {
+        this.item = Optional.ofNullable(item);
     }
 }

@@ -1,5 +1,6 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
+import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZineTargetHitCriterionConditions;
 import net.minecraft.advancement.criterion.TargetHitCriterion;
 import net.minecraft.predicate.NumberRange;
@@ -13,13 +14,22 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Optional;
 
 @Mixin(TargetHitCriterion.Conditions.class)
-public abstract class TargetHitCriterionConditionsMixin implements ZineTargetHitCriterionConditions {
+public abstract class TargetHitCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineTargetHitCriterionConditions {
+
+    @Shadow @Final @Mutable
+    private Optional<LootContextPredicate> player;
 
     @Shadow @Final @Mutable
     private NumberRange.IntRange signalStrength;
 
     @Shadow @Final @Mutable
     private Optional<LootContextPredicate> projectile;
+
+    @Override
+    public void zine$setPlayer(@Nullable LootContextPredicate player) {
+        this.player = Optional.ofNullable(player);
+    }
 
     @Override
     public void zine$setSignalStrength(NumberRange.IntRange signalStrength) {

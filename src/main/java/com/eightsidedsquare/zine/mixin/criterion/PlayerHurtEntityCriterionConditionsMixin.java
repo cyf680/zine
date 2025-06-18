@@ -1,10 +1,10 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
+import com.eightsidedsquare.zine.common.criterion.ZineDamageCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZineEntityCriterionConditions;
-import com.eightsidedsquare.zine.common.criterion.ZineOnKilledCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.OnKilledCriterion;
-import net.minecraft.predicate.entity.DamageSourcePredicate;
+import net.minecraft.advancement.criterion.PlayerHurtEntityCriterion;
+import net.minecraft.predicate.DamagePredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -14,19 +14,19 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.Optional;
 
-@Mixin(OnKilledCriterion.Conditions.class)
-public abstract class OnKilledCriterionConditionsMixin implements ZinePlayerCriterionConditions,
-        ZineEntityCriterionConditions,
-        ZineOnKilledCriterionConditions {
+@Mixin(PlayerHurtEntityCriterion.Conditions.class)
+public abstract class PlayerHurtEntityCriterionConditionsMixin implements ZinePlayerCriterionConditions,
+        ZineDamageCriterionConditions,
+        ZineEntityCriterionConditions {
 
     @Shadow @Final @Mutable
     private Optional<LootContextPredicate> player;
 
     @Shadow @Final @Mutable
-    private Optional<LootContextPredicate> entity;
+    private Optional<DamagePredicate> damage;
 
     @Shadow @Final @Mutable
-    private Optional<DamageSourcePredicate> killingBlow;
+    private Optional<LootContextPredicate> entity;
 
     @Override
     public void zine$setPlayer(@Nullable LootContextPredicate player) {
@@ -34,12 +34,12 @@ public abstract class OnKilledCriterionConditionsMixin implements ZinePlayerCrit
     }
 
     @Override
-    public void zine$setEntity(@Nullable LootContextPredicate entity) {
-        this.entity = Optional.ofNullable(entity);
+    public void zine$setDamage(@Nullable DamagePredicate damage) {
+        this.damage = Optional.ofNullable(damage);
     }
 
     @Override
-    public void zine$setKillingBlow(@Nullable DamageSourcePredicate killingBlow) {
-        this.killingBlow = Optional.ofNullable(killingBlow);
+    public void zine$setEntity(@Nullable LootContextPredicate entity) {
+        this.entity = Optional.ofNullable(entity);
     }
 }

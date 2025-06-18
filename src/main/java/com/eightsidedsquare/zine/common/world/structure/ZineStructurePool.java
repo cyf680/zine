@@ -27,7 +27,7 @@ public interface ZineStructurePool {
             Function<StructurePool.Projection, ? extends StructurePoolElement> elementGetter,
             int weight,
             StructurePool.Projection projection) {
-        throw new UnsupportedOperationException("Implemented via mixin.");
+        this.zine$addElement(elementGetter.apply(projection), weight);
     }
 
     default void zine$setFallback(RegistryEntry<StructurePool> fallback) {
