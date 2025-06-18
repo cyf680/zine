@@ -1,7 +1,5 @@
 package com.eightsidedsquare.zine.common.criterion;
 
-import net.minecraft.predicate.entity.DistancePredicate;
-import net.minecraft.predicate.entity.LocationPredicate;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import org.jetbrains.annotations.Nullable;
 

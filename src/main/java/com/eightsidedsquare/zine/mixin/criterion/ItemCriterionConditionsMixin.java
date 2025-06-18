@@ -1,11 +1,9 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
-import com.eightsidedsquare.zine.common.criterion.ZineItemCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZineLocationCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.*;
+import net.minecraft.advancement.criterion.ItemCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
-import net.minecraft.predicate.item.ItemPredicate;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

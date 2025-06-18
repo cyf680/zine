@@ -3,7 +3,6 @@ package com.eightsidedsquare.zine.mixin.criterion;
 import com.eightsidedsquare.zine.common.criterion.ZineItemCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZineVillagerCriterionConditions;
-import net.minecraft.advancement.criterion.UsingItemCriterion;
 import net.minecraft.advancement.criterion.VillagerTradeCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;

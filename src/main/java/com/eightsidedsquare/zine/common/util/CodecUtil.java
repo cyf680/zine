@@ -7,10 +7,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.util.Util;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.EulerAngle;
-import org.joml.Vector2f;
 
 import java.util.List;
 import java.util.function.Function;

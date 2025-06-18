@@ -2,7 +2,6 @@ package com.eightsidedsquare.zine.mixin.criterion;
 
 import com.eightsidedsquare.zine.common.criterion.ZineItemCriterionConditions;
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.UsedTotemCriterion;
 import net.minecraft.advancement.criterion.UsingItemCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;

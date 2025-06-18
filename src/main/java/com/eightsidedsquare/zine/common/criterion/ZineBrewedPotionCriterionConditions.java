@@ -1,7 +1,6 @@
 package com.eightsidedsquare.zine.common.criterion;
 
 import net.minecraft.potion.Potion;
-import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.jetbrains.annotations.Nullable;
 

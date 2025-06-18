@@ -2,7 +2,6 @@ package com.eightsidedsquare.zine.client.atlas.generator;
 
 import com.eightsidedsquare.zine.client.atlas.GeneratorAtlasSource;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient;
-import com.eightsidedsquare.zine.common.util.CodecUtil;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

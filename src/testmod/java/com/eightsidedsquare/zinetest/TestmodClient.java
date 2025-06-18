@@ -18,11 +18,14 @@ import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.minecraft.client.data.*;
+import net.minecraft.client.data.ItemModels;
+import net.minecraft.client.data.ModelIds;
+import net.minecraft.client.data.Models;
+import net.minecraft.client.data.TextureMap;
 import net.minecraft.client.render.model.SimpleBlockStateModel;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.item.Items;
-import net.minecraft.util.*;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -34,38 +37,9 @@ public class TestmodClient implements ClientModInitializer {
 
     public static int entityId;
     private static final Identifier TEST_MODEL = TestmodInit.id("item/test");
-//    public static final RenderPipeline CUSTOM_ENTITY_PIPELINE = RenderPipelines.register(
-//            RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET)
-//                    .withFragmentShader(TestmodInit.id("core/custom_entity"))
-//                    .withLocation("pipeline/entity_cutout_no_cull")
-//                    .withShaderDefine("ALPHA_CUTOUT", 0.1F)
-//                    .withSampler("Sampler1")
-//                    .withUniform("ScreenSize", UniformType.VEC2)
-//                    .withUniform("EntityId", UniformType.INT)
-//                    .withCull(false)
-//                    .build()
-//    );
-//    public static final Function<Identifier, RenderLayer> CUSTOM_ENTITY = Util.memoize(
-//            (texture) -> {
-//                RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
-//                        .texture(new RenderPhase.Texture(texture, false))
-//                        .lightmap(RenderPhase.ENABLE_LIGHTMAP)
-//                        .overlay(RenderPhase.ENABLE_OVERLAY_COLOR)
-//                        .build(true);
-//                return RenderLayer.of(
-//                        "custom_entity",
-//                        1536,
-//                        true,
-//                        false,
-//                        CUSTOM_ENTITY_PIPELINE,
-//                        multiPhaseParameters
-//                );
-//            }
-//    );
 
     @Override
     public void onInitializeClient() {
-//        ShaderUniformRegistry.INSTANCE.register("EntityId", ctx -> ctx.uniform().set(entityId));
         AtlasEvents.modifySourcesEvent(Identifier.ofVanilla("blocks")).register(sources -> {
             sources.add(new GeneratorAtlasSource(
                     new NoiseSpriteGenerator(

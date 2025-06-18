@@ -1,7 +1,6 @@
 package com.eightsidedsquare.zine.mixin.criterion;
 
 import com.eightsidedsquare.zine.common.criterion.ZinePlayerCriterionConditions;
-import net.minecraft.advancement.criterion.StartedRidingCriterion;
 import net.minecraft.advancement.criterion.TickCriterion;
 import net.minecraft.predicate.entity.LootContextPredicate;
 import org.jetbrains.annotations.Nullable;

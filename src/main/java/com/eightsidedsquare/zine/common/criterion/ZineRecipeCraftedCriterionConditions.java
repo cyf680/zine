@@ -1,10 +1,8 @@
 package com.eightsidedsquare.zine.common.criterion;
 
-import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.registry.RegistryKey;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;

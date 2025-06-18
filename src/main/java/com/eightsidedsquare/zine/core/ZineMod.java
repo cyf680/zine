@@ -6,7 +6,7 @@ import com.eightsidedsquare.zine.common.registry.RegistryHelper;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 
-public class ModInit implements ModInitializer {
+public class ZineMod implements ModInitializer {
 
     public static final String MOD_ID = "zine";
     static final RegistryHelper REGISTRY = RegistryHelper.create(MOD_ID);

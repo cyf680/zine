@@ -1,7 +1,7 @@
 package com.eightsidedsquare.zine.mixin.client;
 
-import com.eightsidedsquare.zine.client.state.ZineEntityRenderState;
 import com.eightsidedsquare.zine.client.state.RenderStateDataKey;
+import com.eightsidedsquare.zine.client.state.ZineEntityRenderState;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
 import net.minecraft.client.render.entity.state.EntityRenderState;

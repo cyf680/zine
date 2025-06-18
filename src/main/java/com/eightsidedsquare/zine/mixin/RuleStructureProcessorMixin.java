@@ -4,7 +4,10 @@ import com.eightsidedsquare.zine.common.world.structure.ZineRuleStructureProcess
 import com.google.common.collect.ImmutableList;
 import net.minecraft.structure.processor.RuleStructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorRule;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 

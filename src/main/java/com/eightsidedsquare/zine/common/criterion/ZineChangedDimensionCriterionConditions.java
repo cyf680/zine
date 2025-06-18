@@ -1,6 +1,5 @@
 package com.eightsidedsquare.zine.common.criterion;
 
-import net.minecraft.predicate.entity.LootContextPredicate;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
