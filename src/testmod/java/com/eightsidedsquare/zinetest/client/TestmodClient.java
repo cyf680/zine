@@ -1,4 +1,4 @@
-package com.eightsidedsquare.zinetest;
+package com.eightsidedsquare.zinetest.client;
 
 import com.eightsidedsquare.zine.client.atlas.AtlasEvents;
 import com.eightsidedsquare.zine.client.atlas.ConnectedTexturesAtlasSource;

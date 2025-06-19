@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zinetest.mixin.client;
 
-import com.eightsidedsquare.zinetest.TestmodClient;
+import com.eightsidedsquare.zinetest.client.TestmodClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;

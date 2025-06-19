@@ -12,7 +12,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.eightsidedsquare.zinetest.TestmodClient"
+      "com.eightsidedsquare.zinetest.client.TestmodClient"
     ],
     "main": [
       "com.eightsidedsquare.zinetest.core.TestmodInit"
