@@ -18,13 +18,20 @@ import com.eightsidedsquare.zinetest.core.TestmodInit;
 import com.eightsidedsquare.zinetest.core.TestmodItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.data.ItemModels;
 import net.minecraft.client.data.ModelIds;
 import net.minecraft.client.data.Models;
 import net.minecraft.client.data.TextureMap;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.model.SimpleBlockStateModel;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.item.Items;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import org.joml.Vector2f;
@@ -37,6 +44,7 @@ public class TestmodClient implements ClientModInitializer {
 
     public static int entityId;
     private static final Identifier TEST_MODEL = TestmodInit.id("item/test");
+    private static final boolean SHOW_TEST_HUD = false;
 
     @Override
     public void onInitializeClient() {
@@ -141,5 +149,15 @@ public class TestmodClient implements ClientModInitializer {
         ArmorTrimRegistry.registerMaterial(TestmodInit.TOURMALINE_TRIM_MATERIAL);
         ArmorTrimRegistry.registerMaterial(TestmodInit.OBSIDIAN_TRIM_MATERIAL);
         ArmorTrimRegistry.registerPattern(TestmodInit.CHECKERED_TRIM_PATTERN);
+
+        if(SHOW_TEST_HUD) {
+            HudElementRegistry.attachElementAfter(VanillaHudElements.TITLE_AND_SUBTITLE, TestmodInit.id("test"), (ctx, tickCounter) -> {
+                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+                MutableText text = Text.literal("ABC 123").formatted(Formatting.ITALIC, Formatting.BOLD);
+                ctx.drawText(textRenderer, text, 10, 10, -1, false);
+                ctx.zine$prepareOutlineColor(0xffff0000);
+                ctx.drawText(textRenderer, text, 10, 20, -1, false);
+            });
+        }
     }
 }
