@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "fabric:type": "zine:tessellating",
+      "parent": "minecraft:block/block",
+      "size": 7,
+      "texture": "zinetest:block/big_diamond"
+    }
+  }
+}

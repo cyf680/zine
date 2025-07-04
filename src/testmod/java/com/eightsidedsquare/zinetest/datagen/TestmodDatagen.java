@@ -19,6 +19,7 @@ public class TestmodDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(TestmodRecipeGen.Provider::new);
         pack.addProvider(TestmodItemTagGen::new);
         pack.addProvider(TestmodDynamicGen::new);
+        pack.addProvider(TestmodModelGen::new);
     }
 
     @Override

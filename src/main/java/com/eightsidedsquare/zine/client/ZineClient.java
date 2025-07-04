@@ -6,15 +6,19 @@ import com.eightsidedsquare.zine.client.atlas.GeneratorAtlasSource;
 import com.eightsidedsquare.zine.client.atlas.RemapAtlasSource;
 import com.eightsidedsquare.zine.client.atlas.generator.SpriteGenerator;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient;
+import com.eightsidedsquare.zine.client.block.model.ConnectedBlockStateModel;
+import com.eightsidedsquare.zine.client.block.model.TessellatingBlockStateModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
+import com.eightsidedsquare.zine.client.registry.ClientRegistryHelper;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistryImpl;
 import com.eightsidedsquare.zine.core.ZineMod;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.AtlasSourceRegistry;
 import net.minecraft.util.Identifier;
 
-public class ModClient implements ClientModInitializer {
+public class ZineClient implements ClientModInitializer {
+
+    public static final ClientRegistryHelper REGISTRY = ClientRegistryHelper.create(ZineMod.MOD_ID);
 
     @Override
     public void onInitializeClient() {
@@ -22,9 +26,12 @@ public class ModClient implements ClientModInitializer {
 
         this.registerEvents();
 
-        AtlasSourceRegistry.register(ZineMod.id("generator"), GeneratorAtlasSource.CODEC);
-        AtlasSourceRegistry.register(ZineMod.id("remap"), RemapAtlasSource.CODEC);
-        AtlasSourceRegistry.register(ZineMod.id("connected_textures"), ConnectedTexturesAtlasSource.CODEC);
+        REGISTRY.atlasSource("generator", GeneratorAtlasSource.CODEC);
+        REGISTRY.atlasSource("remap", RemapAtlasSource.CODEC);
+        REGISTRY.atlasSource("connected_textures", ConnectedTexturesAtlasSource.CODEC);
+
+        REGISTRY.blockStateModel("connected", ConnectedBlockStateModel.Unbaked.CODEC);
+        REGISTRY.blockStateModel("tessellating", TessellatingBlockStateModel.Unbaked.CODEC);
     }
 
     private void callBootstraps() {

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": {
+      "fabric:type": "zine:connected",
+      "parent": "minecraft:block/block",
+      "base_sprite_name": "zinetest:block/wood",
+      "fancy": false
+    }
+  }
+}

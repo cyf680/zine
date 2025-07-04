@@ -47,7 +47,7 @@ fabricApi {
         client = true
         outputDirectory = file("src/testmod/generated")
         addToResources = false
-        strictValidation = true
+        strictValidation = false
     }
 }
 

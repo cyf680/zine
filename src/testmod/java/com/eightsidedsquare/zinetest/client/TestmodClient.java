@@ -7,8 +7,6 @@ import com.eightsidedsquare.zine.client.atlas.RemapAtlasSource;
 import com.eightsidedsquare.zine.client.atlas.generator.NoiseSpriteGenerator;
 import com.eightsidedsquare.zine.client.atlas.generator.SpriteProperties;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient1D;
-import com.eightsidedsquare.zine.client.block.model.FancyConnectedBlockModel;
-import com.eightsidedsquare.zine.client.block.model.TessellatingBlockModel;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
@@ -20,6 +18,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.VanillaHudElements;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.data.ItemModels;
 import net.minecraft.client.data.ModelIds;
@@ -114,6 +113,7 @@ public class TestmodClient implements ClientModInitializer {
             assetCollector.accept(TestmodItems.GOO, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.GOO)));
             assetCollector.accept(TestmodItems.WOOD, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.WOOD)));
             assetCollector.accept(TestmodItems.RAINBOW, ItemModels.basic(ModelIds.getBlockModelId(TestmodBlocks.RAINBOW)));
+            assetCollector.accept(TestmodItems.BIG_DIAMOND, ItemModels.basic(ModelIds.getBlockModelId(Blocks.DIAMOND_BLOCK)));
         });
         ModelLoadingPlugin.register(pluginCtx -> {
             pluginCtx.registerBlockStateResolver(TestmodBlocks.TOURMALINE_BLOCK, ctx -> {
@@ -121,15 +121,6 @@ public class TestmodClient implements ClientModInitializer {
             });
             pluginCtx.registerBlockStateResolver(TestmodBlocks.GOO, ctx -> {
                 ctx.setModel(ctx.block().getDefaultState(), new SimpleBlockStateModel.Unbaked(new ModelVariant(ModelIds.getBlockModelId(TestmodBlocks.GOO))).cached());
-            });
-            pluginCtx.registerBlockStateResolver(TestmodBlocks.WOOD, ctx -> {
-                ctx.setModel(ctx.block().getDefaultState(), new FancyConnectedBlockModel(TestmodInit.id("block/wood")).cached());
-            });
-            pluginCtx.registerBlockStateResolver(TestmodBlocks.RAINBOW, ctx -> {
-                ctx.setModel(ctx.block().getDefaultState(), new TessellatingBlockModel(
-                        TestmodInit.id("block/rainbow"),
-                        4
-                ).cached());
             });
         });
         ModelLoadingPlugin.register(ctx -> ctx.modifyItemModelBeforeBake().register((model, context) -> {
@@ -145,6 +136,7 @@ public class TestmodClient implements ClientModInitializer {
             translations.putIfAbsent(TestmodItems.GOO.getTranslationKey(), "Goo");
             translations.putIfAbsent(TestmodItems.WOOD.getTranslationKey(), "Wood");
             translations.putIfAbsent(TestmodItems.RAINBOW.getTranslationKey(), "Rainbow");
+            translations.putIfAbsent(TestmodItems.BIG_DIAMOND.getTranslationKey(), "Big Diamond");
         });
         ArmorTrimRegistry.registerMaterial(TestmodInit.TOURMALINE_TRIM_MATERIAL);
         ArmorTrimRegistry.registerMaterial(TestmodInit.OBSIDIAN_TRIM_MATERIAL);

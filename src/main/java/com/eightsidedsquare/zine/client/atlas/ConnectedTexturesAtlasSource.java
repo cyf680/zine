@@ -17,17 +17,18 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 
 import java.util.EnumMap;
+import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class ConnectedTexturesAtlasSource implements AtlasSource {
 
     public static final MapCodec<ConnectedTexturesAtlasSource> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Identifier.CODEC.fieldOf("base_name").forGetter(ConnectedTexturesAtlasSource::getBaseName),
-            Identifier.CODEC.fieldOf("all").forGetter(ConnectedTexturesAtlasSource::getAllTexture),
-            Identifier.CODEC.fieldOf("corners").forGetter(ConnectedTexturesAtlasSource::getCornersTexture),
-            Identifier.CODEC.fieldOf("horizontal").forGetter(ConnectedTexturesAtlasSource::getHorizontalTexture),
-            Identifier.CODEC.fieldOf("none").forGetter(ConnectedTexturesAtlasSource::getNoneTexture),
-            Identifier.CODEC.fieldOf("vertical").forGetter(ConnectedTexturesAtlasSource::getVerticalTexture)
+            Identifier.CODEC.optionalFieldOf("all").forGetter(source -> Optional.of(source.allTexture)),
+            Identifier.CODEC.optionalFieldOf("corners").forGetter(source -> Optional.of(source.cornersTexture)),
+            Identifier.CODEC.optionalFieldOf("horizontal").forGetter(source -> Optional.of(source.horizontalTexture)),
+            Identifier.CODEC.optionalFieldOf("none").forGetter(source -> Optional.of(source.noneTexture)),
+            Identifier.CODEC.optionalFieldOf("vertical").forGetter(source -> Optional.of(source.verticalTexture))
     ).apply(instance, ConnectedTexturesAtlasSource::new));
 
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -53,14 +54,30 @@ public class ConnectedTexturesAtlasSource implements AtlasSource {
         this.verticalTexture = verticalTexture;
     }
 
+    public ConnectedTexturesAtlasSource(Identifier baseName,
+                                        Optional<Identifier> allTexture,
+                                        Optional<Identifier> cornersTexture,
+                                        Optional<Identifier> horizontalTexture,
+                                        Optional<Identifier> noneTexture,
+                                        Optional<Identifier> verticalTexture) {
+        this(
+                baseName,
+                allTexture.orElseGet(() -> baseName.withSuffixedPath("_all")),
+                cornersTexture.orElseGet(() -> baseName.withSuffixedPath("_corners")),
+                horizontalTexture.orElseGet(() -> baseName.withSuffixedPath("_horizontal")),
+                noneTexture.orElseGet(() -> baseName.withSuffixedPath("_none")),
+                verticalTexture.orElseGet(() -> baseName.withSuffixedPath("_vertical"))
+        );
+    }
+
     public ConnectedTexturesAtlasSource(Identifier baseName) {
         this(
                 baseName,
-                baseName.withSuffixedPath("_all"),
-                baseName.withSuffixedPath("_corners"),
-                baseName.withSuffixedPath("_horizontal"),
-                baseName.withSuffixedPath("_none"),
-                baseName.withSuffixedPath("_vertical")
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty(),
+                Optional.empty()
         );
     }
 

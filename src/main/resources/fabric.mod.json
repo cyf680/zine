@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "com.eightsidedsquare.zine.client.ModClient"
+      "com.eightsidedsquare.zine.client.ZineClient"
     ],
     "main": [
       "com.eightsidedsquare.zine.core.ZineMod"

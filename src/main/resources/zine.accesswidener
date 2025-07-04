@@ -16,3 +16,5 @@ accessible class net/minecraft/predicate/entity/LocationPredicate$PositionRange
 accessible method net/minecraft/predicate/entity/LocationPredicate$PositionRange create (Lnet/minecraft/predicate/NumberRange$DoubleRange;Lnet/minecraft/predicate/NumberRange$DoubleRange;Lnet/minecraft/predicate/NumberRange$DoubleRange;)Ljava/util/Optional;
 accessible method net/minecraft/world/poi/PointOfInterestTypes registerStates (Lnet/minecraft/registry/entry/RegistryEntry;Ljava/util/Set;)V
 accessible class net/minecraft/client/font/TextRenderer$Drawer
+accessible method net/minecraft/client/data/VariantsBlockModelDefinitionCreator validateAndAddProperties (Ljava/util/Set;Lnet/minecraft/block/Block;Lnet/minecraft/client/data/BlockStateVariantMap;)Ljava/util/Set;
+accessible method net/minecraft/client/data/BlockStateVariantMap getVariants ()Ljava/util/Map;

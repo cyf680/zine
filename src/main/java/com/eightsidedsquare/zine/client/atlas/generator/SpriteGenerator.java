@@ -1,7 +1,7 @@
 package com.eightsidedsquare.zine.client.atlas.generator;
 
+import com.eightsidedsquare.zine.client.ZineClient;
 import com.eightsidedsquare.zine.client.atlas.GeneratorAtlasSource;
-import com.eightsidedsquare.zine.core.ZineMod;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.util.Identifier;
@@ -15,8 +15,8 @@ public interface SpriteGenerator {
     Codec<SpriteGenerator> CODEC = ID_MAPPER.getCodec(Identifier.CODEC).dispatch(SpriteGenerator::getCodec, Function.identity());
 
     static void bootstrap() {
-        ID_MAPPER.put(ZineMod.id("gradient"), GradientSpriteGenerator.CODEC);
-        ID_MAPPER.put(ZineMod.id("noise"), NoiseSpriteGenerator.CODEC);
+        ZineClient.REGISTRY.spriteGenerator("gradient", GradientSpriteGenerator.CODEC);
+        ZineClient.REGISTRY.spriteGenerator("noise", NoiseSpriteGenerator.CODEC);
     }
 
     MapCodec<? extends SpriteGenerator> getCodec();
