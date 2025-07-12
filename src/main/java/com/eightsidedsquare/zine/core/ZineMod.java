@@ -1,6 +1,7 @@
 package com.eightsidedsquare.zine.core;
 
 import com.eightsidedsquare.zine.common.advancement.VanillaAdvancementModificationsImpl;
+import com.eightsidedsquare.zine.common.block.ModifyBlockSoundGroupContextImpl;
 import com.eightsidedsquare.zine.common.entity.spawn.NoiseSpawnCondition;
 import com.eightsidedsquare.zine.common.registry.RegistryHelper;
 import net.fabricmc.api.ModInitializer;
@@ -17,7 +18,11 @@ public class ZineMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ZineDataComponentTypes.init();
+
         VanillaAdvancementModificationsImpl.registerEvents();
+
+        ModifyBlockSoundGroupContextImpl.registerEvents();
 
         REGISTRY.spawnCondition("noise", NoiseSpawnCondition.CODEC);
     }

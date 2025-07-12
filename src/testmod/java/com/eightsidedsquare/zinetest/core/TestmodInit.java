@@ -1,6 +1,7 @@
 package com.eightsidedsquare.zinetest.core;
 
 import com.eightsidedsquare.zine.common.advancement.VanillaAdvancementModifications;
+import com.eightsidedsquare.zine.common.block.ModifyBlockSoundGroupCallback;
 import com.eightsidedsquare.zine.common.registry.RegistryHelper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
@@ -13,6 +14,7 @@ import net.minecraft.item.equipment.trim.ArmorTrimMaterial;
 import net.minecraft.item.equipment.trim.ArmorTrimPattern;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.structure.processor.RuleStructureProcessor;
 import net.minecraft.structure.processor.StructureProcessorLists;
 import net.minecraft.structure.processor.StructureProcessorRule;
@@ -35,6 +37,7 @@ public class TestmodInit implements ModInitializer {
         return Identifier.of(MOD_ID, path);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onInitialize() {
         TestmodBlocks.init();
@@ -58,6 +61,10 @@ public class TestmodInit implements ModInitializer {
 
         DefaultItemComponentEvents.MODIFY.register(ctx -> {
             ctx.modify(Items.OBSIDIAN, builder -> builder.add(DataComponentTypes.PROVIDES_TRIM_MATERIAL, new ProvidesTrimMaterialComponent(OBSIDIAN_TRIM_MATERIAL)));
+        });
+
+        ModifyBlockSoundGroupCallback.EVENT.register(ctx -> {
+            ctx.setSoundGroup(BlockSoundGroup.TUFF_BRICKS, Blocks.STONE_BRICKS, Blocks.STONE_BRICK_STAIRS, Blocks.STONE_BRICK_SLAB);
         });
 
         VanillaAdvancementModifications.registerTacticalFishingBucketItem(Items.AXOLOTL_BUCKET);

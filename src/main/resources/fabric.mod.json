@@ -40,12 +40,14 @@
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
         "com/eightsidedsquare/zine/common/criterion/ZineBredAnimalsCriterionConditions"
       ],
+      "net/minecraft/class_310": ["com/eightsidedsquare/zine/client/util/ZineMinecraftClient"],
       "net/minecraft/class_327": ["com/eightsidedsquare/zine/client/font/ZineTextRenderer"],
       "net/minecraft/class_327$class_5232": ["com/eightsidedsquare/zine/client/font/ZineOutlinable"],
       "net/minecraft/class_332": ["com/eightsidedsquare/zine/client/gui/ZineDrawContext"],
       "net/minecraft/class_382$class_10364": ["com/eightsidedsquare/zine/client/font/ZineOutlinable"],
       "net/minecraft/class_1011": ["com/eightsidedsquare/zine/client/atlas/ZineNativeImage"],
       "net/minecraft/class_1792": ["com/eightsidedsquare/zine/common/item/ZineItem"],
+      "net/minecraft/class_1792$class_1793": ["com/eightsidedsquare/zine/common/item/ZineItemSettings"],
       "net/minecraft/class_1887$class_9700": ["com/eightsidedsquare/zine/common/enchantment/ZineEnchantmentBuilder"],
       "net/minecraft/class_1996$class_1998": [
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
@@ -221,6 +223,7 @@
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerGeneratesContainerLootCriterionConditions"
       ],
+      "net/minecraft/class_5321": ["com/eightsidedsquare/zine/common/registry/ZineRegistryKey"],
       "net/minecraft/class_5409$class_5410": [
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
         "com/eightsidedsquare/zine/common/criterion/ZineEntityCriterionConditions",
@@ -240,6 +243,7 @@
       ],
       "net/minecraft/class_7106": ["com/eightsidedsquare/zine/common/entity/variant/ZineMobVariant"],
       "net/minecraft/class_7375": ["com/eightsidedsquare/zine/common/entity/variant/ZineMobVariant"],
+      "net/minecraft/class_7775": ["com/eightsidedsquare/zine/client/model/ZineBaker"],
       "net/minecraft/class_8066": ["com/eightsidedsquare/zine/client/atlas/ZinePalettedPermutationsAtlasSource"],
       "net/minecraft/class_8508$class_8509": [
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
@@ -254,6 +258,7 @@
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
         "com/eightsidedsquare/zine/common/criterion/ZineLocationCriterionConditions"
       ],
+      "net/minecraft/class_9323$class_9324": ["com/eightsidedsquare/zine/common/util/ZineComponentMapBuilder"],
       "net/minecraft/class_9329": ["com/eightsidedsquare/zine/common/predicate/ZineComponentMapPredicate"],
       "net/minecraft/class_9346": [
         "com/eightsidedsquare/zine/common/entity/variant/ZineWolfVariant",
@@ -268,6 +273,7 @@
         "com/eightsidedsquare/zine/common/criterion/ZineFallAfterExplosionCriterionConditions"
       ],
       "net/minecraft/class_9750": ["com/eightsidedsquare/zine/common/predicate/ZineMovementPredicate"],
+      "net/minecraft/class_9826": ["com/eightsidedsquare/zine/client/model/ZineErrorCollectingSpriteGetter"],
       "net/minecraft/class_10017": ["com/eightsidedsquare/zine/client/state/ZineEntityRenderState"],
       "net/minecraft/class_10396": ["com/eightsidedsquare/zine/client/item/tint/ZineConstantTintSource"],
       "net/minecraft/class_10397": ["com/eightsidedsquare/zine/client/item/tint/ZineCustomModelDataTintSource"],
@@ -276,9 +282,12 @@
       "net/minecraft/class_10400": ["com/eightsidedsquare/zine/client/item/tint/ZineGrassTintSource"],
       "net/minecraft/class_10403": ["com/eightsidedsquare/zine/client/item/tint/ZineMapColorTintSource"],
       "net/minecraft/class_10404": ["com/eightsidedsquare/zine/client/item/tint/ZinePotionTintSource"],
+      "net/minecraft/class_10405": ["com/eightsidedsquare/zine/client/data/ZineItemModelOutput"],
       "net/minecraft/class_10430$class_10431": ["com/eightsidedsquare/zine/client/item/ZineUnbakedBasicItemModel"],
       "net/minecraft/class_10435$class_10436": ["com/eightsidedsquare/zine/client/item/ZineUnbakedCompositeItemModel"],
       "net/minecraft/class_10437$class_10438": ["com/eightsidedsquare/zine/client/item/ZineUnbakedConditionItemModel"],
+      "net/minecraft/class_10444": ["com/eightsidedsquare/zine/client/item/ZineItemRenderState"],
+      "net/minecraft/class_10444$class_10446": ["com/eightsidedsquare/zine/client/item/ZineItemRenderStateLayerRenderState"],
       "net/minecraft/class_10448$class_10450": ["com/eightsidedsquare/zine/client/item/ZineUnbakedRangeDispatchItemModel"],
       "net/minecraft/class_10451$class_10453": ["com/eightsidedsquare/zine/client/item/ZineUnbakedSelectItemModel"],
       "net/minecraft/class_10455$class_10456": ["com/eightsidedsquare/zine/client/item/ZineUnbakedSpecialItemModel"],

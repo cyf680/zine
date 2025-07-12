@@ -2,7 +2,6 @@
   "variants": {
     "": {
       "fabric:type": "zine:tessellating",
-      "parent": "minecraft:block/block",
       "size": 4,
       "texture": "zinetest:block/rainbow"
     }

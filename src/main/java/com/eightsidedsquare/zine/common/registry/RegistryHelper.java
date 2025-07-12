@@ -1,6 +1,7 @@
 package com.eightsidedsquare.zine.common.registry;
 
 import com.eightsidedsquare.zine.common.recipe.RecipeTypeImpl;
+import com.eightsidedsquare.zine.common.util.codec.RegistryCodecGroup;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.serialization.Codec;
@@ -8,6 +9,7 @@ import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricTrackedDataRegistry;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.minecraft.advancement.criterion.Criterion;
 import net.minecraft.block.AbstractBlock;
@@ -37,6 +39,7 @@ import net.minecraft.entity.ai.brain.ScheduleBuilder;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.data.TrackedDataHandler;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -484,6 +487,20 @@ public interface RegistryHelper {
      */
     default <T> ComponentType<T> dataComponent(String name, UnaryOperator<ComponentType.Builder<T>> builderOperator) {
         return this.dataComponent(name, builderOperator.apply(ComponentType.builder()));
+    }
+
+    /**
+     * Registers a registry entry data component type, which is used by items and block entities,
+     * based on the entry codec and packet codec of a {@link RegistryCodecGroup}.
+     * @param name the name of the component type
+     * @param registryCodecGroup the registry codec group which provides the codec and packet codec for the component type
+     * @return the registered and built component type
+     * @param <T> the registry entry type of the component type
+     */
+    default <T> ComponentType<RegistryEntry<T>> dataComponent(String name, RegistryCodecGroup<T> registryCodecGroup) {
+        return this.dataComponent(name, builder ->
+                builder.codec(registryCodecGroup.entryCodec()).packetCodec(registryCodecGroup.packetCodec()).cache()
+        );
     }
 
     /**
@@ -1966,6 +1983,27 @@ public interface RegistryHelper {
      */
     default <T extends InputControl> MapCodec<T> inputControl(String name, MapCodec<T> codec) {
         return this.register(Registries.INPUT_CONTROL_TYPE, name, codec);
+    }
+
+    /**
+     * @param name the name of the tracked data handler
+     * @param trackedDataHandler the tracked data handler to register
+     * @return the registered tracked data handler
+     * @param <T> the type of tracked data
+     */
+    default <T> TrackedDataHandler<T> trackedDataHandler(String name, TrackedDataHandler<T> trackedDataHandler) {
+        FabricTrackedDataRegistry.register(this.id(name), trackedDataHandler);
+        return trackedDataHandler;
+    }
+
+    /**
+     * @param name the name of the tracked data handler
+     * @param codec the packet codec of the tracked data handler
+     * @return the registered tracked data handler
+     * @param <T> the type of tracked data
+     */
+    default <T> TrackedDataHandler<T> trackedDataHandler(String name, PacketCodec<? super RegistryByteBuf, T> codec) {
+        return this.trackedDataHandler(name, TrackedDataHandler.create(codec));
     }
 
     private <T extends Block> T registerBlockItem(String name, T block) {

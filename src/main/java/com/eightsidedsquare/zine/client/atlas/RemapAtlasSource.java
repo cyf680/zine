@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.client.atlas;
 
-import com.eightsidedsquare.zine.common.util.CodecUtil;
+import com.eightsidedsquare.zine.common.util.codec.CodecUtil;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;

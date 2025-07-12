@@ -10,6 +10,8 @@ import com.eightsidedsquare.zine.client.atlas.gradient.Gradient1D;
 import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
+import com.eightsidedsquare.zine.client.registry.ClientRegistryHelper;
+import com.eightsidedsquare.zine.client.render.EntityRendererFeatureRegistry;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistry;
 import com.eightsidedsquare.zinetest.core.TestmodBlocks;
 import com.eightsidedsquare.zinetest.core.TestmodInit;
@@ -25,6 +27,9 @@ import net.minecraft.client.data.ModelIds;
 import net.minecraft.client.data.Models;
 import net.minecraft.client.data.TextureMap;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.BipedEntityRenderer;
+import net.minecraft.client.render.entity.feature.EyesFeatureRenderer;
 import net.minecraft.client.render.model.SimpleBlockStateModel;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.item.Items;
@@ -41,12 +46,22 @@ import java.util.Map;
 
 public class TestmodClient implements ClientModInitializer {
 
+    public static final ClientRegistryHelper REGISTRY = ClientRegistryHelper.create(TestmodInit.MOD_ID);
     public static int entityId;
     private static final Identifier TEST_MODEL = TestmodInit.id("item/test");
     private static final boolean SHOW_TEST_HUD = false;
 
     @Override
     public void onInitializeClient() {
+        EntityRendererFeatureRegistry.get(BipedEntityRenderer.class).addFeatures(ctx -> {
+            ctx.addFeature(new EyesFeatureRenderer<>(ctx.renderer()) {
+                @Override
+                public RenderLayer getEyesTexture() {
+                    return RenderLayer.getEndPortal();
+                }
+            });
+        });
+
         AtlasEvents.modifySourcesEvent(Identifier.ofVanilla("blocks")).register(sources -> {
             sources.add(new GeneratorAtlasSource(
                     new NoiseSpriteGenerator(
@@ -94,6 +109,8 @@ public class TestmodClient implements ClientModInitializer {
         ItemModelEvents.BEFORE_BAKE.register((id, unbaked) -> {
             if(Items.DIAMOND.zine$modelEquals(id)) {
                 return ItemModels.composite(unbaked, ItemModels.basic(TEST_MODEL));
+            }else if(Items.COPPER_INGOT.zine$modelEquals(id)) {
+                return new TransformedItemModel.Unbaked();
             }
             return unbaked;
         });
@@ -141,6 +158,8 @@ public class TestmodClient implements ClientModInitializer {
         ArmorTrimRegistry.registerMaterial(TestmodInit.TOURMALINE_TRIM_MATERIAL);
         ArmorTrimRegistry.registerMaterial(TestmodInit.OBSIDIAN_TRIM_MATERIAL);
         ArmorTrimRegistry.registerPattern(TestmodInit.CHECKERED_TRIM_PATTERN);
+
+        REGISTRY.itemModel("transformed", TransformedItemModel.Unbaked.CODEC);
 
         if(SHOW_TEST_HUD) {
             HudElementRegistry.attachElementAfter(VanillaHudElements.TITLE_AND_SUBTITLE, TestmodInit.id("test"), (ctx, tickCounter) -> {

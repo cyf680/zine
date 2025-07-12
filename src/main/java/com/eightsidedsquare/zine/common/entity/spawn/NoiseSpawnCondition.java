@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.common.entity.spawn;
 
-import com.eightsidedsquare.zine.common.util.CodecUtil;
+import com.eightsidedsquare.zine.common.util.codec.CodecUtil;
 import com.eightsidedsquare.zine.common.world.NoiseRouterNoise;
 import com.eightsidedsquare.zine.common.world.density_function.MutableNoisePos;
 import com.mojang.serialization.MapCodec;

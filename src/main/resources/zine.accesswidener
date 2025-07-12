@@ -18,3 +18,10 @@ accessible method net/minecraft/world/poi/PointOfInterestTypes registerStates (L
 accessible class net/minecraft/client/font/TextRenderer$Drawer
 accessible method net/minecraft/client/data/VariantsBlockModelDefinitionCreator validateAndAddProperties (Ljava/util/Set;Lnet/minecraft/block/Block;Lnet/minecraft/client/data/BlockStateVariantMap;)Ljava/util/Set;
 accessible method net/minecraft/client/data/BlockStateVariantMap getVariants ()Ljava/util/Map;
+accessible method net/minecraft/client/render/entity/LivingEntityRenderer addFeature (Lnet/minecraft/client/render/entity/feature/FeatureRenderer;)Z
+accessible field net/minecraft/client/render/entity/LivingEntityRenderer itemModelResolver Lnet/minecraft/client/item/ItemModelManager;
+accessible field net/minecraft/client/render/entity/EntityRenderer dispatcher Lnet/minecraft/client/render/entity/EntityRenderDispatcher;
+accessible field net/minecraft/client/gui/screen/Screen client Lnet/minecraft/client/MinecraftClient;
+accessible method net/minecraft/client/gui/screen/ingame/HandledScreen addTooltipSubmenuHandler (Lnet/minecraft/client/gui/tooltip/TooltipSubmenuHandler;)V
+accessible field net/minecraft/block/AbstractBlock soundGroup Lnet/minecraft/sound/BlockSoundGroup;
+mutable field net/minecraft/block/AbstractBlock soundGroup Lnet/minecraft/sound/BlockSoundGroup;

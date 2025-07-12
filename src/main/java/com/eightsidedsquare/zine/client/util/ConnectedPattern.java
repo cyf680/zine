@@ -130,83 +130,21 @@ public enum ConnectedPattern {
         return this.sw;
     }
 
-    public ConnectedPattern flipHorizontal() {
-        return switch (this) {
-            case AHHA -> HAAH;
-            case HAAH -> AHHA;
-            case AHCV -> HAVC;
-            case HAVC -> AHCV;
-            case VCCV -> CVVC;
-            case CNCC -> NCCC;
-            case CCNC -> CCCN;
-            case NCCN -> CNNC;
-            case AHNV -> HAVN;
-            case HAVN -> AHNV;
-            case VCHA -> CVAH;
-            case CVAH -> VCHA;
-            case CVVC -> VCCV;
-            case NCCC -> CNCC;
-            case CCCN -> CCNC;
-            case CNNC -> NCCN;
-            case VNNV -> NVVN;
-            case NVVN -> VNNV;
-            case VCNV -> CVVN;
-            case HHCN -> HHNC;
-            case VNCV -> NVVC;
-            case HHNC -> HHCN;
-            case NNCN -> NNNC;
-            case NNNC -> NNCN;
-            case CNCN -> NCNC;
-            case NCNC -> CNCN;
-            case VNHA -> NVAH;
-            case NVAH -> VNHA;
-            case CNHH -> NCHH;
-            case NVVC -> VNCV;
-            case NCHH -> CNHH;
-            case CVVN -> VCNV;
-            case NCNN -> CNNN;
-            case CNNN -> NCNN;
-            default -> this;
-        };
+    public ConnectedPattern and(ConnectedPattern pattern) {
+        return this == pattern ? this : from(
+                this.nw.and(pattern.nw),
+                this.ne.and(pattern.ne),
+                this.se.and(pattern.se),
+                this.sw.and(pattern.sw)
+        );
     }
 
-    public ConnectedPattern flipVertical() {
-        return switch (this) {
-            case AHCV -> VCHA;
-            case HAVC -> CVAH;
-            case HHCC -> CCHH;
-            case CNCC -> CCNC;
-            case CCNC -> CNCC;
-            case NNCC -> CCNN;
-            case AAVV -> VVAA;
-            case AHNV -> VNHA;
-            case HHNN -> NNHH;
-            case HAVN -> NVAH;
-            case VCHA -> AHCV;
-            case CVAH -> HAVC;
-            case CCHH -> HHCC;
-            case NCCC -> CCCN;
-            case CCCN -> NCCC;
-            case CCNN -> NNCC;
-            case VCNV -> VNCV;
-            case HHCN -> NCHH;
-            case VNCV -> VCNV;
-            case HHNC -> CNHH;
-            case NNCN -> NCNN;
-            case NNNC -> CNNN;
-            case CNCN -> NCNC;
-            case NCNC -> CNCN;
-            case VVAA -> AAVV;
-            case VNHA -> AHNV;
-            case NNHH -> HHNN;
-            case NVAH -> HAVN;
-            case CNHH -> HHNC;
-            case NVVC -> CVVN;
-            case NCHH -> HHCN;
-            case CVVN -> NVVC;
-            case NCNN -> NNCN;
-            case CNNN -> NNNC;
-            default -> this;
-        };
+    public ConnectedPattern or(ConnectedPattern pattern) {
+        return this == pattern ? this : from(
+                this.nw.or(pattern.nw),
+                this.ne.or(pattern.ne),
+                this.se.or(pattern.se),
+                this.sw.or(pattern.sw)
+        );
     }
 }

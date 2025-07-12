@@ -1,6 +1,6 @@
 package com.eightsidedsquare.zine.client.atlas.gradient;
 
-import com.eightsidedsquare.zine.common.util.CodecUtil;
+import com.eightsidedsquare.zine.common.util.codec.CodecUtil;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
