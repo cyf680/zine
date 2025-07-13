@@ -77,7 +77,7 @@ import java.util.function.Function;
  *         .listFieldOf(BlockPos.CODEC, BlockPos.PACKET_CODEC, "positions")
  *         .apply(MyObject::getPositions)
  *         .nullableField(TextCodecs.CODEC, TextCodecs.UNLIMITED_REGISTRY_PACKET_CODEC, "name")
- *         .apply(null, MyObject::getName, MyObject::setName)
+ *         .apply(MyObject::getName, MyObject::setName)
  *         .intField("weight")
  *         .apply(0, MyObject::getWeight, MyObject::setWeight)
  *         .build();
@@ -178,7 +178,7 @@ public interface DataHelper<T> {
          * @param <F> type of the field
          * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
          */
-        <F> FieldBuilder<F, T> nullableField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key);
+        <F> NullableFieldBuilder<F, T> nullableField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key);
 
         /**
          * Adds a non-syncing nullable field to the data helper builder.
@@ -188,7 +188,7 @@ public interface DataHelper<T> {
          * @param <F> type of the field
          * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
          */
-        default <F> FieldBuilder<F, T> nullableField(Codec<F> codec, String key) {
+        default <F> NullableFieldBuilder<F, T> nullableField(Codec<F> codec, String key) {
             return this.nullableField(codec, null, key);
         }
 
@@ -199,7 +199,7 @@ public interface DataHelper<T> {
          * @param <F> type of the field
          * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
          */
-        default <F> FieldBuilder<F, T> nullableField(PacketCodec<? super RegistryByteBuf, F> packetCodec) {
+        default <F> NullableFieldBuilder<F, T> nullableField(PacketCodec<? super RegistryByteBuf, F> packetCodec) {
             return this.nullableField(null, packetCodec, "");
         }
 
@@ -464,6 +464,12 @@ public interface DataHelper<T> {
 
         default Builder<T> apply(F defaultValue, Function<T, F> getter, BiConsumer<T, F> setter) {
             return this.apply(obj -> defaultValue, getter, setter);
+        }
+    }
+
+    interface NullableFieldBuilder<F, T> extends FieldBuilder<F, T> {
+        default Builder<T> apply(Function<T, F> getter, BiConsumer<T, F> setter) {
+            return this.apply(obj -> null, getter, setter);
         }
     }
 

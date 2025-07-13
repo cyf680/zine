@@ -72,7 +72,7 @@ public class DataHelperImpl<T> implements DataHelper<T> {
         }
 
         @Override
-        public <F> FieldBuilder<F, T> nullableField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
+        public <F> NullableFieldBuilder<F, T> nullableField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
             return (defaultValue, getter, setter) -> this.field(
                             codec == null ? null : Codecs.optional(codec),
                             packetCodec == null ? null : PacketCodecs.optional(packetCodec.cast()),
