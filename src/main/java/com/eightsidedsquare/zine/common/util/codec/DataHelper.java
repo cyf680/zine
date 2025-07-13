@@ -9,6 +9,7 @@ import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -86,6 +87,9 @@ import java.util.function.Function;
  * followed by an {@code apply} method call which provides a getter method reference
  * (fields that aren't collections or maps must also provide a default value and setter method reference).
  * <p>See the methods of {@link Builder} for all the supported field types.
+ * <p>The codec parameter can be {@code null} to prevent data reading and writing,
+ * and the packet codec parameter can be {@code null} to prevent buf reading and writing.
+ * Both cannot be null, however. There are overloaded builder methods for adding fields without codecs or packet codecs.
  * <p>For this example, the DataHelper is a static constant
  * as the field types for <strong>MyObject</strong> are consistent.
  * An instance field of DataHelper might be needed for objects with generic type(s)
@@ -133,14 +137,37 @@ public interface DataHelper<T> {
     interface Builder<T> {
 
         /**
-         * Adds a field to the data helper builder
+         * Adds a field to the data helper builder.
          * @param codec the codec of the field
          * @param packetCodec the packet codec of the field
          * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
          * @param <F> type of the field
          * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
          */
-        <F> FieldBuilder<F, T> field(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key);
+        <F> FieldBuilder<F, T> field(@Nullable Codec<F> codec,
+                                     @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec,
+                                     String key);
+
+        /**
+         * Adds a non-syncing field to the data helper builder.
+         * @param codec the codec of the field
+         * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
+         * @param <F> type of the field
+         * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
+         */
+        default <F> FieldBuilder<F, T> field(Codec<F> codec, String key) {
+            return this.field(codec, null, key);
+        }
+
+        /**
+         * Adds a non-serializing field to the data helper builder.
+         * @param packetCodec the packet codec of the field
+         * @param <F> type of the field
+         * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
+         */
+        default <F> FieldBuilder<F, T> field(PacketCodec<? super RegistryByteBuf, F> packetCodec) {
+            return this.field(null, packetCodec, "");
+        }
 
         /**
          * <p>Adds a nullable field to the data helper builder.
@@ -151,7 +178,30 @@ public interface DataHelper<T> {
          * @param <F> type of the field
          * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
          */
-        <F> FieldBuilder<F, T> nullableField(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key);
+        <F> FieldBuilder<F, T> nullableField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key);
+
+        /**
+         * Adds a non-syncing nullable field to the data helper builder.
+         * <p>Internally, values are wrapped in an {@link java.util.Optional} in order to handle null values properly.
+         * @param codec the codec of the field
+         * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
+         * @param <F> type of the field
+         * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
+         */
+        default <F> FieldBuilder<F, T> nullableField(Codec<F> codec, String key) {
+            return this.nullableField(codec, null, key);
+        }
+
+        /**
+         * Adds a non-serializing nullable field to the data helper builder.
+         * <p>Internally, values are wrapped in an {@link java.util.Optional} in order to handle null values properly.
+         * @param packetCodec the packet codec of the field
+         * @param <F> type of the field
+         * @apiNote {@link FieldBuilder#apply(Object, Function, BiConsumer)} must be called afterward to continue building the data helper
+         */
+        default <F> FieldBuilder<F, T> nullableField(PacketCodec<? super RegistryByteBuf, F> packetCodec) {
+            return this.nullableField(null, packetCodec, "");
+        }
 
         /**
          * Adds a list field to the data helper builder
@@ -162,7 +212,32 @@ public interface DataHelper<T> {
          * @param <L> type of the list field
          * @apiNote {@link ListFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
          */
-        <F, L extends Collection<F>> ListFieldBuilder<F, L, T> listField(Codec<L> codec, PacketCodec<? super RegistryByteBuf, L> packetCodec, String key);
+        <F, L extends Collection<F>> ListFieldBuilder<F, L, T> listField(@Nullable Codec<L> codec,
+                                                                         @Nullable PacketCodec<? super RegistryByteBuf, L> packetCodec,
+                                                                         String key);
+
+        /**
+         * Adds a non-syncing list field to the data helper builder
+         * @param codec the codec of the list field
+         * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
+         * @param <F> type of the list field element
+         * @param <L> type of the list field
+         * @apiNote {@link ListFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <F, L extends Collection<F>> ListFieldBuilder<F, L, T> listField(Codec<L> codec, String key) {
+            return this.listField(codec, null, key);
+        }
+
+        /**
+         * Adds a non-serializing list field to the data helper builder
+         * @param packetCodec the packet codec of the list field
+         * @param <F> type of the list field element
+         * @param <L> type of the list field
+         * @apiNote {@link ListFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <F, L extends Collection<F>> ListFieldBuilder<F, L, T> listField(PacketCodec<? super RegistryByteBuf, L> packetCodec) {
+            return this.listField(null, packetCodec, "");
+        }
 
         /**
          * <p>Adds a list field to the data helper builder.
@@ -173,7 +248,32 @@ public interface DataHelper<T> {
          * @param <F> type of the list field element
          * @apiNote {@link ListFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
          */
-        <F> ListFieldBuilder<F, List<F>, T> listFieldOf(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key);
+        <F> ListFieldBuilder<F, List<F>, T> listFieldOf(@Nullable Codec<F> codec,
+                                                        @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec,
+                                                        String key);
+
+        /**
+         * <p>Adds a non-syncing list field to the data helper builder.
+         * <p>The codec is converted to a list type.
+         * @param codec the codec of an element of the list field
+         * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
+         * @param <F> type of the list field element
+         * @apiNote {@link ListFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <F> ListFieldBuilder<F, List<F>, T> listFieldOf(Codec<F> codec, String key) {
+            return this.listFieldOf(codec, null, key);
+        }
+
+        /**
+         * <p>Adds a non-serializing list field to the data helper builder.
+         * <p>The packet codec is converted to a list type.
+         * @param packetCodec the packet codec of an element of the list field
+         * @param <F> type of the list field element
+         * @apiNote {@link ListFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <F> ListFieldBuilder<F, List<F>, T> listFieldOf(PacketCodec<? super RegistryByteBuf, F> packetCodec) {
+            return this.listFieldOf(null, packetCodec, "");
+        }
 
         /**
          * Adds a map field to the data helper builder
@@ -185,7 +285,34 @@ public interface DataHelper<T> {
          * @param <M> type of the map field
          * @apiNote {@link MapFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
          */
-        <K, V, M extends Map<K, V>> MapFieldBuilder<K, V, M, T> mapField(Codec<M> codec, PacketCodec<? super RegistryByteBuf, M> packetCodec, String key);
+        <K, V, M extends Map<K, V>> MapFieldBuilder<K, V, M, T> mapField(@Nullable Codec<M> codec,
+                                                                         @Nullable PacketCodec<? super RegistryByteBuf, M> packetCodec,
+                                                                         String key);
+
+        /**
+         * Adds a non-syncing map field to the data helper builder
+         * @param codec the codec of the map field
+         * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
+         * @param <K> type of the map field key
+         * @param <V> type of the map field value
+         * @param <M> type of the map field
+         * @apiNote {@link MapFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <K, V, M extends Map<K, V>> MapFieldBuilder<K, V, M, T> mapField(Codec<M> codec, String key) {
+            return this.mapField(codec, null, key);
+        }
+
+        /**
+         * Adds a non-serializing map field to the data helper builder
+         * @param packetCodec the packet codec of the map field
+         * @param <K> type of the map field key
+         * @param <V> type of the map field value
+         * @param <M> type of the map field
+         * @apiNote {@link MapFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <K, V, M extends Map<K, V>> MapFieldBuilder<K, V, M, T> mapField(PacketCodec<? super RegistryByteBuf, M> packetCodec) {
+            return this.mapField(null, packetCodec, "");
+        }
 
         /**
          * <p>Adds a map field to the data helper builder.
@@ -199,11 +326,41 @@ public interface DataHelper<T> {
          * @param <V> type of the map field value
          * @apiNote {@link MapFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
          */
-        <K, V> MapFieldBuilder<K, V, Map<K, V>, T> mapField(Codec<K> keyCodec,
-                                                            Codec<V> elementCodec,
-                                                            PacketCodec<? super RegistryByteBuf, K> keyPacketCodec,
-                                                            PacketCodec<? super RegistryByteBuf, V> elementPacketCodec,
-                                                            String key);
+        <K, V> MapFieldBuilder<K, V, Map<K, V>, T> mapFieldOf(@Nullable Codec<K> keyCodec,
+                                                              @Nullable Codec<V> elementCodec,
+                                                              @Nullable PacketCodec<? super RegistryByteBuf, K> keyPacketCodec,
+                                                              @Nullable PacketCodec<? super RegistryByteBuf, V> elementPacketCodec,
+                                                              String key);
+
+        /**
+         * <p>Adds a non-syncing map field to the data helper builder.
+         * <p>The codecs are used to create a codec for the map field.
+         * @param keyCodec the codec of the map field key
+         * @param elementCodec the codec of the map field element
+         * @param key mapping used when encoding to {@link WriteView} and decoding from {@link ReadView}
+         * @param <K> type of the map field key
+         * @param <V> type of the map field value
+         * @apiNote {@link MapFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <K, V> MapFieldBuilder<K, V, Map<K, V>, T> mapFieldOf(Codec<K> keyCodec,
+                                                                      Codec<V> elementCodec,
+                                                                      String key) {
+            return this.mapFieldOf(keyCodec, elementCodec, null, null, key);
+        }
+
+        /**
+         * <p>Adds a non-serializing map field to the data helper builder.
+         * <p>The packet codecs are used to create a packet codec for the map field.
+         * @param keyPacketCodec the packet codec of the map field key
+         * @param elementPacketCodec the packet codec of the map field element
+         * @param <K> type of the map field key
+         * @param <V> type of the map field value
+         * @apiNote {@link MapFieldBuilder#apply(Function)} must be called afterward to continue building the data helper
+         */
+        default <K, V> MapFieldBuilder<K, V, Map<K, V>, T> mapFieldOf(PacketCodec<? super RegistryByteBuf, K> keyPacketCodec,
+                                                                      PacketCodec<? super RegistryByteBuf, V> elementPacketCodec) {
+            return this.mapFieldOf(null, null, keyPacketCodec, elementPacketCodec, "");
+        }
 
         /**
          * Adds a boolean field to the data helper builder
@@ -303,7 +460,11 @@ public interface DataHelper<T> {
     }
 
     interface FieldBuilder<F, T> {
-        Builder<T> apply(F defaultValue, Function<T, F> getter, BiConsumer<T, F> setter);
+        Builder<T> apply(Function<T, F> defaultValueGetter, Function<T, F> getter, BiConsumer<T, F> setter);
+
+        default Builder<T> apply(F defaultValue, Function<T, F> getter, BiConsumer<T, F> setter) {
+            return this.apply(obj -> defaultValue, getter, setter);
+        }
     }
 
     interface ListFieldBuilder<F, L extends Collection<F>, T> {

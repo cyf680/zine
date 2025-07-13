@@ -14,6 +14,7 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.Uuids;
 import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -65,43 +66,51 @@ public class DataHelperImpl<T> implements DataHelper<T> {
         }
 
         @Override
-        public <F> FieldBuilder<F, T> field(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
+        public <F> FieldBuilder<F, T> field(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
             return (defaultValue, getter, setter) ->
                     this.add(new Field<>(codec, packetCodec, key, defaultValue, getter, setter));
         }
 
         @Override
-        public <F> FieldBuilder<F, T> nullableField(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
+        public <F> FieldBuilder<F, T> nullableField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
             return (defaultValue, getter, setter) -> this.field(
-                            Codecs.optional(codec),
-                            PacketCodecs.optional(packetCodec.cast()),
+                            codec == null ? null : Codecs.optional(codec),
+                            packetCodec == null ? null : PacketCodecs.optional(packetCodec.cast()),
                             key
                     )
                     .apply(
-                            Optional.ofNullable(defaultValue),
+                            t -> Optional.ofNullable(defaultValue.apply(t)),
                             t -> Optional.ofNullable(getter.apply(t)),
                             (t, f) -> setter.accept(t, f.orElse(null))
                     );
         }
 
         @Override
-        public <F, L extends Collection<F>> ListFieldBuilder<F, L, T> listField(Codec<L> codec, PacketCodec<? super RegistryByteBuf, L> packetCodec, String key) {
+        public <F, L extends Collection<F>> ListFieldBuilder<F, L, T> listField(@Nullable Codec<L> codec, @Nullable PacketCodec<? super RegistryByteBuf, L> packetCodec, String key) {
             return getter -> this.add(new ListField<>(codec, packetCodec, key, getter));
         }
 
         @Override
-        public <F> ListFieldBuilder<F, List<F>, T> listFieldOf(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
-            return this.listField(codec.listOf(), PacketCodecs.collection(ArrayList::new, packetCodec), key);
+        public <F> ListFieldBuilder<F, List<F>, T> listFieldOf(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key) {
+            return this.listField(
+                    codec == null ? null : codec.listOf(),
+                    packetCodec == null ? null : PacketCodecs.collection(ArrayList::new, packetCodec),
+                    key
+            );
         }
 
         @Override
-        public <K, V, M extends Map<K, V>> MapFieldBuilder<K, V, M, T> mapField(Codec<M> codec, PacketCodec<? super RegistryByteBuf, M> packetCodec, String key) {
+        public <K, V, M extends Map<K, V>> MapFieldBuilder<K, V, M, T> mapField(@Nullable Codec<M> codec, @Nullable PacketCodec<? super RegistryByteBuf, M> packetCodec, String key) {
             return getter -> this.add(new MapField<>(codec, packetCodec, key, getter));
         }
 
         @Override
-        public <K, V> MapFieldBuilder<K, V, Map<K, V>, T> mapField(Codec<K> keyCodec, Codec<V> elementCodec, PacketCodec<? super RegistryByteBuf, K> keyPacketCodec, PacketCodec<? super RegistryByteBuf, V> elementPacketCodec, String key) {
-            return this.mapField(Codec.unboundedMap(keyCodec, elementCodec), PacketCodecs.map(HashMap::new, keyPacketCodec, elementPacketCodec), key);
+        public <K, V> MapFieldBuilder<K, V, Map<K, V>, T> mapFieldOf(@Nullable Codec<K> keyCodec, @Nullable Codec<V> elementCodec, @Nullable PacketCodec<? super RegistryByteBuf, K> keyPacketCodec, @Nullable PacketCodec<? super RegistryByteBuf, V> elementPacketCodec, String key) {
+            return this.mapField(
+                    keyCodec == null || elementCodec == null ? null : Codec.unboundedMap(keyCodec, elementCodec),
+                    keyPacketCodec == null || elementPacketCodec == null ? null : PacketCodecs.map(HashMap::new, keyPacketCodec, elementPacketCodec),
+                    key
+            );
         }
 
         @Override
@@ -176,109 +185,149 @@ public class DataHelperImpl<T> implements DataHelper<T> {
     }
 
     static abstract class AbstractField<F, T> implements DataHelper<T> {
-        protected final Codec<F> codec;
-        protected final PacketCodec<? super RegistryByteBuf, F> packetCodec;
-        protected final String key;
-        protected final Function<T, F> getter;
+        @Nullable final Codec<F> codec;
+        @Nullable final PacketCodec<? super RegistryByteBuf, F> packetCodec;
+        final String key;
+        final Function<T, F> getter;
 
-        protected AbstractField(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key, Function<T, F> getter) {
+        AbstractField(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key, Function<T, F> getter) {
+            if(codec == null && packetCodec == null) {
+                throw new IllegalArgumentException("Both codec and packet codec cannot be null for field " + key);
+            }
             this.codec = codec;
             this.packetCodec = packetCodec;
             this.key = key;
             this.getter = getter;
         }
+
+        abstract void read(ReadView view, Codec<F> codec, T object);
+
+        abstract void write(WriteView view, Codec<F> codec, T object);
+
+        abstract <I extends RegistryByteBuf> void read(I buf, PacketCodec<? super RegistryByteBuf, F> packetCodec, T object);
+
+        abstract <I extends RegistryByteBuf> void write(I buf, PacketCodec<? super RegistryByteBuf, F> packetCodec, T object);
+
+        @Override
+        public final void read(ReadView view, T object) {
+            if(this.codec != null) {
+                this.read(view, this.codec, object);
+            }
+        }
+
+        @Override
+        public final void write(WriteView view, T object) {
+            if(this.codec != null) {
+                this.write(view, this.codec, object);
+            }
+        }
+
+        @Override
+        public final <I extends RegistryByteBuf> void read(I buf, T object) {
+            if(this.packetCodec != null) {
+                this.read(buf, this.packetCodec, object);
+            }
+        }
+
+        @Override
+        public final <I extends RegistryByteBuf> void write(I buf, T object) {
+            if(this.packetCodec != null) {
+                this.write(buf, this.packetCodec, object);
+            }
+        }
     }
 
     static final class Field<F, T> extends AbstractField<F, T> {
-        private final F defaultValue;
+        private final Function<T, F> defaultValueGetter;
         private final BiConsumer<T, F> setter;
 
-        Field(Codec<F> codec, PacketCodec<? super RegistryByteBuf, F> packetCodec, String key, F defaultValue, Function<T, F> getter, BiConsumer<T, F> setter) {
+        Field(@Nullable Codec<F> codec, @Nullable PacketCodec<? super RegistryByteBuf, F> packetCodec, String key, Function<T, F> defaultValueGetter, Function<T, F> getter, BiConsumer<T, F> setter) {
             super(codec, packetCodec, key, getter);
-            this.defaultValue = defaultValue;
+            this.defaultValueGetter = defaultValueGetter;
             this.setter = setter;
         }
 
         @Override
-        public void read(ReadView view, T object) {
-            this.setter.accept(object, view.read(this.key, this.codec).orElse(this.defaultValue));
+        void read(ReadView view, Codec<F> codec, T object) {
+            this.setter.accept(object, view.read(this.key, codec).orElse(this.defaultValueGetter.apply(object)));
         }
 
         @Override
-        public void write(WriteView view, T object) {
-            view.put(this.key, this.codec, this.getter.apply(object));
+        void write(WriteView view, Codec<F> codec, T object) {
+            view.put(this.key, codec, this.getter.apply(object));
         }
 
         @Override
-        public <I extends RegistryByteBuf> void read(I buf, T object) {
-            this.setter.accept(object, this.packetCodec.decode(buf));
+        <I extends RegistryByteBuf> void read(I buf, PacketCodec<? super RegistryByteBuf, F> packetCodec, T object) {
+            this.setter.accept(object, packetCodec.decode(buf));
         }
 
         @Override
-        public <I extends RegistryByteBuf> void write(I buf, T object) {
-            this.packetCodec.encode(buf, this.getter.apply(object));
+        <I extends RegistryByteBuf> void write(I buf, PacketCodec<? super RegistryByteBuf, F> packetCodec, T object) {
+            packetCodec.encode(buf, this.getter.apply(object));
         }
     }
 
     static final class ListField<F, L extends Collection<F>, T> extends AbstractField<L, T> {
 
-        public ListField(Codec<L> codec, PacketCodec<? super RegistryByteBuf, L> packetCodec, String key, Function<T, L> getter) {
+        ListField(@Nullable Codec<L> codec, @Nullable PacketCodec<? super RegistryByteBuf, L> packetCodec, String key, Function<T, L> getter) {
             super(codec, packetCodec, key, getter);
         }
 
         @Override
-        public void read(ReadView view, T object) {
+        void read(ReadView view, Codec<L> codec, T object) {
             L list = this.getter.apply(object);
             list.clear();
-            view.read(this.key, this.codec).ifPresent(list::addAll);
+            view.read(this.key, codec).ifPresent(list::addAll);
         }
 
         @Override
-        public void write(WriteView view, T object) {
-            view.put(this.key, this.codec, this.getter.apply(object));
+        void write(WriteView view, Codec<L> codec, T object) {
+            view.put(this.key, codec, this.getter.apply(object));
         }
 
         @Override
-        public <I extends RegistryByteBuf> void read(I buf, T object) {
+        <I extends RegistryByteBuf> void read(I buf, PacketCodec<? super RegistryByteBuf, L> packetCodec, T object) {
             L list = this.getter.apply(object);
             list.clear();
-            list.addAll(this.packetCodec.decode(buf));
+            list.addAll(packetCodec.decode(buf));
         }
 
         @Override
-        public <I extends RegistryByteBuf> void write(I buf, T object) {
-            this.packetCodec.encode(buf, this.getter.apply(object));
+        <I extends RegistryByteBuf> void write(I buf, PacketCodec<? super RegistryByteBuf, L> packetCodec, T object) {
+            packetCodec.encode(buf, this.getter.apply(object));
         }
     }
 
     static final class MapField<K, V, M extends Map<K, V>, T> extends AbstractField<M, T> {
 
-        public MapField(Codec<M> codec, PacketCodec<? super RegistryByteBuf, M> packetCodec, String key, Function<T, M> getter) {
+        MapField(@Nullable Codec<M> codec, @Nullable PacketCodec<? super RegistryByteBuf, M> packetCodec, String key, Function<T, M> getter) {
             super(codec, packetCodec, key, getter);
         }
 
         @Override
-        public void read(ReadView view, T object) {
+        void read(ReadView view, Codec<M> codec, T object) {
             M map = this.getter.apply(object);
             map.clear();
-            view.read(this.key, this.codec).ifPresent(map::putAll);
+            view.read(this.key, codec).ifPresent(map::putAll);
         }
 
         @Override
-        public void write(WriteView view, T object) {
-            view.put(this.key, this.codec, this.getter.apply(object));
+        void write(WriteView view, Codec<M> codec, T object) {
+            view.put(this.key, codec, this.getter.apply(object));
         }
 
         @Override
-        public <I extends RegistryByteBuf> void read(I buf, T object) {
+        <I extends RegistryByteBuf> void read(I buf, PacketCodec<? super RegistryByteBuf, M> packetCodec, T object) {
             M map = this.getter.apply(object);
             map.clear();
-            map.putAll(this.packetCodec.decode(buf));
+            map.putAll(packetCodec.decode(buf));
         }
 
         @Override
-        public <I extends RegistryByteBuf> void write(I buf, T object) {
-            this.packetCodec.encode(buf, this.getter.apply(object));
+        <I extends RegistryByteBuf> void write(I buf, PacketCodec<? super RegistryByteBuf, M> packetCodec, T object) {
+            packetCodec.encode(buf, this.getter.apply(object));
         }
+
     }
 }
