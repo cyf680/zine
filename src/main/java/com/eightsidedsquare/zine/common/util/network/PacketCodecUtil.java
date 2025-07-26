@@ -21,7 +21,7 @@ import java.util.function.Function;
 public final class PacketCodecUtil {
 
     public static final PacketCodec<PacketByteBuf, BlockState> BLOCK_STATE = state(Block.STATE_IDS, Block::getRawIdFromState);
-    public static final PacketCodec<PacketByteBuf, FluidState> FLUID_STATE = state(Fluid.STATE_IDS, null);
+    public static final PacketCodec<PacketByteBuf, FluidState> FLUID_STATE = state(Fluid.STATE_IDS);
     public static final PacketCodec<RegistryByteBuf, ComponentMap> COMPONENT_MAP = Component.PACKET_CODEC.collect(PacketCodecs.toList()).xmap(
             components -> {
                 ComponentMap.Builder builder = ComponentMap.builder();
@@ -47,6 +47,10 @@ public final class PacketCodecUtil {
                     return state;
                 }
         );
+    }
+
+    public static <T extends State<?, ?>> PacketCodec<PacketByteBuf, T> state(IdList<T> idList) {
+        return state(idList, null);
     }
 
     private PacketCodecUtil() {
