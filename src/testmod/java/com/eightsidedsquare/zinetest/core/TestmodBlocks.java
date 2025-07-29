@@ -1,6 +1,8 @@
 package com.eightsidedsquare.zinetest.core;
 
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 
 public interface TestmodBlocks {
 

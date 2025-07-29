@@ -190,6 +190,7 @@
       "net/minecraft/class_3785": ["com/eightsidedsquare/zine/common/world/structure/ZineStructurePool"],
       "net/minecraft/class_3821": ["com/eightsidedsquare/zine/common/world/structure/ZineStructureProcessorRule"],
       "net/minecraft/class_3826": ["com/eightsidedsquare/zine/common/world/structure/ZineRuleStructureProcessor"],
+      "net/minecraft/class_4095": ["com/eightsidedsquare/zine/common/entity/ZineBrain<TE;>"],
       "net/minecraft/class_4550": ["com/eightsidedsquare/zine/common/predicate/ZineBlockPredicate"],
       "net/minecraft/class_4551": ["com/eightsidedsquare/zine/common/predicate/ZineFluidPredicate"],
       "net/minecraft/class_4552": ["com/eightsidedsquare/zine/common/predicate/ZineLightPredicate"],
@@ -212,6 +213,7 @@
         "com/eightsidedsquare/zine/common/criterion/ZinePlayerCriterionConditions",
         "com/eightsidedsquare/zine/common/criterion/ZineTargetHitCriterionConditions"
       ],
+      "net/minecraft/class_5250": ["com/eightsidedsquare/zine/common/text/ZineMutableText"],
       "net/minecraft/class_5258": ["com/eightsidedsquare/zine/common/predicate/ZineLootContextPredicate"
       ],
       "net/minecraft/class_5279\u0024class_5280": [

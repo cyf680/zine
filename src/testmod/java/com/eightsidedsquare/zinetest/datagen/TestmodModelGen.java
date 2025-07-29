@@ -1,8 +1,6 @@
 package com.eightsidedsquare.zinetest.datagen;
 
 import com.eightsidedsquare.zine.client.block.BlockStateModels;
-import com.eightsidedsquare.zine.client.block.ConnectedBlockStateModel;
-import com.eightsidedsquare.zine.client.block.TessellatingBlockStateModel;
 import com.eightsidedsquare.zine.client.data.BlockModelDefinitions;
 import com.eightsidedsquare.zinetest.core.TestmodBlocks;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;

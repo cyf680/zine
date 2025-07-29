@@ -4,6 +4,7 @@ import com.eightsidedsquare.zine.client.atlas.generator.SpriteGenerator;
 import com.eightsidedsquare.zine.client.atlas.gradient.Gradient;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.client.model.loading.v1.CustomUnbakedBlockStateModel;
+import net.fabricmc.fabric.api.client.model.loading.v1.ExtraModelKey;
 import net.fabricmc.fabric.api.client.model.loading.v1.UnbakedModelDeserializer;
 import net.fabricmc.fabric.api.client.rendering.v1.AtlasSourceRegistry;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -76,6 +77,15 @@ public interface ClientRegistryHelper {
      */
     default <T extends BooleanProperty> MapCodec<T> booleanProperty(String name, MapCodec<T> codec) {
         return this.register(name, codec, BooleanProperties.ID_MAPPER::put);
+    }
+
+    /**
+     * @param name the name of the extra model key
+     * @return an {@link ExtraModelKey} with the {@link ClientRegistryHelper}'s namespace
+     * @param <T> type of the extra model
+     */
+    default <T> ExtraModelKey<T> extraModelKey(String name) {
+        return ExtraModelKey.create(() -> this.id(name).toString());
     }
 
     /**

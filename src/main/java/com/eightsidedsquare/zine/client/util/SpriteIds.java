@@ -22,40 +22,44 @@ public final class SpriteIds {
     public static final Identifier SHIELD_PATTERN_ATLAS = TexturedRenderLayers.SHIELD_PATTERNS_ATLAS_TEXTURE;
     public static final Identifier SHULKER_BOX_ATLAS = TexturedRenderLayers.SHULKER_BOXES_ATLAS_TEXTURE;
     public static final Identifier SIGN_ATLAS = TexturedRenderLayers.SIGNS_ATLAS_TEXTURE;
+    
+    public static SpriteIdentifier of(Identifier atlasId, Identifier id) {
+        return new SpriteIdentifier(atlasId, id);
+    }
 
     public static SpriteIdentifier armorTrim(Identifier id) {
-        return new SpriteIdentifier(ARMOR_TRIM_ATLAS, id);
+        return of(ARMOR_TRIM_ATLAS, id);
     }
 
     public static SpriteIdentifier bannerPattern(Identifier id) {
-        return new SpriteIdentifier(BANNER_PATTERN_ATLAS, id);
+        return of(BANNER_PATTERN_ATLAS, id);
     }
 
     public static SpriteIdentifier bed(Identifier id) {
-        return new SpriteIdentifier(BED_ATLAS, id);
+        return of(BED_ATLAS, id);
     }
 
     public static SpriteIdentifier block(Identifier id) {
-        return new SpriteIdentifier(BLOCK_ATLAS, id);
+        return of(BLOCK_ATLAS, id);
     }
 
     public static SpriteIdentifier chest(Identifier id) {
-        return new SpriteIdentifier(CHEST_ATLAS, id);
+        return of(CHEST_ATLAS, id);
     }
 
     public static SpriteIdentifier decoratedPot(Identifier id) {
-        return new SpriteIdentifier(DECORATED_POT_ATLAS, id);
+        return of(DECORATED_POT_ATLAS, id);
     }
 
     public static SpriteIdentifier shieldPattern(Identifier id) {
-        return new SpriteIdentifier(SHIELD_PATTERN_ATLAS, id);
+        return of(SHIELD_PATTERN_ATLAS, id);
     }
 
     public static SpriteIdentifier shulkerBox(Identifier id) {
-        return new SpriteIdentifier(SHULKER_BOX_ATLAS, id);
+        return of(SHULKER_BOX_ATLAS, id);
     }
 
     public static SpriteIdentifier sign(Identifier id) {
-        return new SpriteIdentifier(SIGN_ATLAS, id);
+        return of(SIGN_ATLAS, id);
     }
 }

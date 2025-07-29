@@ -4,6 +4,7 @@
   "package": "com.eightsidedsquare.zinetest.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AxolotlBrainMixin"
   ],
   "client": [
     "client.AllayEntityModelMixin",

@@ -11,7 +11,6 @@ import com.eightsidedsquare.zine.client.item.ItemModelEvents;
 import com.eightsidedsquare.zine.client.language.LanguageEvents;
 import com.eightsidedsquare.zine.client.model.ModelEvents;
 import com.eightsidedsquare.zine.client.registry.ClientRegistryHelper;
-import com.eightsidedsquare.zine.client.render.EntityRendererFeatureRegistry;
 import com.eightsidedsquare.zine.client.trim.ArmorTrimRegistry;
 import com.eightsidedsquare.zinetest.core.TestmodBlocks;
 import com.eightsidedsquare.zinetest.core.TestmodInit;
@@ -27,9 +26,6 @@ import net.minecraft.client.data.ModelIds;
 import net.minecraft.client.data.Models;
 import net.minecraft.client.data.TextureMap;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.BipedEntityRenderer;
-import net.minecraft.client.render.entity.feature.EyesFeatureRenderer;
 import net.minecraft.client.render.model.SimpleBlockStateModel;
 import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.item.Items;
@@ -53,15 +49,6 @@ public class TestmodClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        EntityRendererFeatureRegistry.get(BipedEntityRenderer.class).addFeatures(ctx -> {
-            ctx.addFeature(new EyesFeatureRenderer<>(ctx.renderer()) {
-                @Override
-                public RenderLayer getEyesTexture() {
-                    return RenderLayer.getEndPortal();
-                }
-            });
-        });
-
         AtlasEvents.modifySourcesEvent(Identifier.ofVanilla("blocks")).register(sources -> {
             sources.add(new GeneratorAtlasSource(
                     new NoiseSpriteGenerator(

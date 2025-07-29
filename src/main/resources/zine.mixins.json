@@ -57,6 +57,7 @@
     "advancement.criterion.VillagerTradeCriterionConditionsMixin",
     "client.MinecraftClientMixin",
     "client.font.BakedGlyphMixin",
+    "entity.BrainMixin",
     "entity.spawn.BiomeSpawnConditionMixin",
     "entity.spawn.MoonBrightnessSpawnConditionMixin",
     "entity.spawn.StructureSpawnConditionMixin",
@@ -99,7 +100,8 @@
     "structure.SinglePoolElementMixin",
     "structure.StructurePoolMixin",
     "structure.StructureProcessorListMixin",
-    "structure.StructureProcessorRuleMixin"
+    "structure.StructureProcessorRuleMixin",
+    "text.MutableTextMixin"
   ],
   "client": [
     "client.InGameHudMixin",
@@ -133,7 +135,6 @@
     "client.model.BakerMixin",
     "client.model.ErrorCollectingSpriteGetterMixin",
     "client.render.EntityRendererMixin",
-    "client.render.EntityRenderersMixin",
     "client.render.EntityRenderStateMixin",
     "client.render.TrimSpriteKeyMixin",
     "client.screens.HandledScreenMixin",
