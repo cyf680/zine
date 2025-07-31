@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(RegistryKey.class)
-public abstract class RegistryKeyMixin implements ZineRegistryKey {
+public abstract class RegistryKeyMixin<T> implements ZineRegistryKey<T> {
 
     @Shadow @Final private Identifier registry;
 
