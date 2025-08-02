@@ -65,6 +65,8 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+    modImplementation "maven.modrinth:cardinal-components-api:6.1.2"
+    
     afterEvaluate {
         testmodImplementation sourceSets.main.output
     }
